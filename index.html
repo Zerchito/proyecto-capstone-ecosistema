@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" id="htmlRoot">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ecosistema Sostenible — Guía del Proyecto Capstone</title>
+<title id="pageTitle">Ecosistema Sostenible — Guía del Proyecto Capstone</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext x='32' y='46' font-size='42' text-anchor='middle'%3E%F0%9F%8C%BF%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -143,17 +143,6 @@
 
   /* ---------- main ---------- */
   main{ min-width:0; }
-
-  .mobile-bar{
-    display:none;
-    position:sticky; top:0; z-index:20;
-    background:var(--bg-panel);
-    border-bottom:1px solid var(--line);
-    padding:12px 20px;
-    font-family:'Playfair Display',serif;
-    font-weight:600;
-  }
-  @media (max-width:900px){ .mobile-bar{ display:block; } }
 
   section{
     padding: 64px 56px;
@@ -574,11 +563,49 @@
     font-size:0.86rem;
   }
   @media (max-width:700px){ footer{ padding:30px 22px; } }
+
+  /* ---------- language switcher ---------- */
+  .lang-switch{
+    display:flex;
+    gap:4px;
+    margin-top:4px;
+  }
+  .lang-switch button{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    font-weight:700;
+    letter-spacing:0.04em;
+    padding:4px 9px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .lang-switch button:hover{ background:var(--bg-panel-dim); color:var(--ink); }
+  .lang-switch button.is-active{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:var(--bg-panel);
+  }
+  .mobile-bar{
+    display:none;
+    position:sticky; top:0; z-index:20;
+    background:var(--bg-panel);
+    border-bottom:1px solid var(--line);
+    padding:12px 20px;
+    font-family:'Playfair Display',serif;
+    font-weight:600;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  @media (max-width:900px){ .mobile-bar{ display:flex; } }
 </style>
 </head>
 <body>
 
-<div class="mobile-bar">🌿 Ecosistema Sostenible — Guía Capstone</div>
+<div class="mobile-bar"><span data-i18n="mobilebar.title">🌿 Ecosistema Sostenible — Guía Capstone</span><span class="lang-switch" id="langSwitchMobile"></span></div>
 
 <div class="shell">
 
@@ -586,22 +613,23 @@
     <div class="toc-brand">
       <div class="mark"></div>
       <div>
-        <b>Ecosistema<br>Sostenible</b>
-        <span>Guía del proyecto Capstone</span>
+        <b data-i18n="brand.title">Ecosistema<br>Sostenible</b>
+        <span data-i18n="brand.subtitle">Guía del proyecto Capstone</span>
       </div>
     </div>
+    <div class="lang-switch" id="langSwitchSidebar"></div>
     <ol>
-      <li><a href="#overview">Descripción general</a></li>
-      <li><a href="#actores">Actores del ecosistema</a></li>
-      <li><a href="#vecindarios">Vecindarios</a></li>
-      <li><a href="#generaciones">Tipos de generación</a></li>
-      <li><a href="#reglas">Reglas de transformación</a></li>
-      <li><a href="#movimiento">Movimiento animal</a></li>
-      <li><a href="#parametros">Parámetros CLI</a></li>
-      <li><a href="#validaciones">Validaciones</a></li>
-      <li><a href="#mapa">Mapa inicial (m)</a></li>
-      <li><a href="#simulador">Simulador interactivo</a></li>
-      <li><a href="#faq">Preguntas frecuentes</a></li>
+      <li><a href="#overview" data-i18n="nav.overview">Descripción general</a></li>
+      <li><a href="#actores" data-i18n="nav.actores">Actores del ecosistema</a></li>
+      <li><a href="#vecindarios" data-i18n="nav.vecindarios">Vecindarios</a></li>
+      <li><a href="#generaciones" data-i18n="nav.generaciones">Tipos de generación</a></li>
+      <li><a href="#reglas" data-i18n="nav.reglas">Reglas de transformación</a></li>
+      <li><a href="#movimiento" data-i18n="nav.movimiento">Movimiento animal</a></li>
+      <li><a href="#parametros" data-i18n="nav.parametros">Parámetros CLI</a></li>
+      <li><a href="#validaciones" data-i18n="nav.validaciones">Validaciones</a></li>
+      <li><a href="#mapa" data-i18n="nav.mapa">Mapa inicial (m)</a></li>
+      <li><a href="#simulador" data-i18n="nav.simulador">Simulador interactivo</a></li>
+      <li><a href="#faq" data-i18n="nav.faq">Preguntas frecuentes</a></li>
     </ol>
   </nav>
 
@@ -609,101 +637,101 @@
 
     <header class="hero">
       <div>
-        <p class="eyebrow">Jala University — Programación 1</p>
-        <h1>Un ecosistema que <em>vive</em><br>línea por línea de código.</h1>
-        <p class="lede">Esta guía interactiva acompaña el Proyecto Final: un simulador celular en Java donde árboles, animales y agua nacen, sobreviven y se mueven según reglas que tú vas a programar. Aquí puedes ver esas reglas en acción antes de escribir una sola línea.</p>
+        <p class="eyebrow" data-i18n="hero.eyebrow">Jala University — Programación 1</p>
+        <h1 data-i18n="hero.h1">Un ecosistema que <em>vive</em><br>línea por línea de código.</h1>
+        <p class="lede" data-i18n="hero.lede">Esta guía interactiva acompaña el Proyecto Final: un simulador celular en Java donde árboles, animales y agua nacen, sobreviven y se mueven según reglas que tú vas a programar. Aquí puedes ver esas reglas en acción antes de escribir una sola línea.</p>
         <div class="cta-row">
-          <a href="#simulador" class="btn btn-primary">Abrir el simulador →</a>
-          <a href="#reglas" class="btn btn-ghost">Ver las reglas</a>
+          <a href="#simulador" class="btn btn-primary" data-i18n="hero.cta1">Abrir el simulador →</a>
+          <a href="#reglas" class="btn btn-ghost" data-i18n="hero.cta2">Ver las reglas</a>
         </div>
       </div>
       <div class="hero-sim">
-        <div class="hs-head"><span>vista previa · <b>m=rnd</b></span><span id="heroGenLabel">Gen: Inicial</span></div>
+        <div class="hs-head"><span data-i18n="hero.previewLabel">vista previa · <b>m=rnd</b></span><span id="heroGenLabel">Gen: Inicial</span></div>
         <div class="grid-wrap"><div id="heroGrid" class="eco-grid"></div></div>
       </div>
     </header>
 
     <!-- 1. OVERVIEW -->
     <section id="overview">
-      <p class="eyebrow">01 · Visión general</p>
-      <h2>¿Qué vas a construir?</h2>
-      <p>Un simulador ecológico en Java que represente, mediante un autómata celular, el comportamiento de un ecosistema natural. A través de reglas simples aplicadas celda por celda, el programa modela el <b>nacimiento</b>, la <b>supervivencia</b> y el <b>movimiento</b> de los elementos de un mapa rectangular.</p>
-      <p>No hay inteligencia artificial ni aleatoriedad oculta en la lógica de las reglas (la única aleatoriedad ocurre, opcionalmente, al generar el mapa inicial). Todo el comportamiento del ecosistema emerge de comparar cada celda con sus vecinas, generación tras generación — el mismo principio detrás del Juego de la Vida de Conway, pero con cuatro tipos de celda y reglas ecológicas propias.</p>
-      <div class="callout">
+      <p class="eyebrow" data-i18n="s1.eyebrow">01 · Visión general</p>
+      <h2 data-i18n="s1.h2">¿Qué vas a construir?</h2>
+      <p data-i18n="s1.p1">Un simulador ecológico en Java que represente, mediante un autómata celular, el comportamiento de un ecosistema natural. A través de reglas simples aplicadas celda por celda, el programa modela el <b>nacimiento</b>, la <b>supervivencia</b> y el <b>movimiento</b> de los elementos de un mapa rectangular.</p>
+      <p data-i18n="s1.p2">No hay inteligencia artificial ni aleatoriedad oculta en la lógica de las reglas (la única aleatoriedad ocurre, opcionalmente, al generar el mapa inicial). Todo el comportamiento del ecosistema emerge de comparar cada celda con sus vecinas, generación tras generación — el mismo principio detrás del Juego de la Vida de Conway, pero con cuatro tipos de celda y reglas ecológicas propias.</p>
+      <div class="callout" data-i18n="s1.callout">
         <b>Idea clave:</b> tu programa no necesita "saber" qué es un bosque o una manada. Solo necesita aplicar, para cada celda, la regla correcta según su tipo actual y lo que hay alrededor. La complejidad del ecosistema es un efecto, no una instrucción.
       </div>
     </section>
 
     <!-- 2. ACTORES -->
     <section id="actores">
-      <p class="eyebrow">02 · Actores del ecosistema</p>
-      <h2>Cuatro tipos de celda, cuatro reglas de vida</h2>
-      <p>Cada celda del mapa tiene un valor entero de 0 a 3. Ese valor es, al mismo tiempo, el dato que guardas en tu matriz y el símbolo que imprimes en consola.</p>
+      <p class="eyebrow" data-i18n="s2.eyebrow">02 · Actores del ecosistema</p>
+      <h2 data-i18n="s2.h2">Cuatro tipos de celda, cuatro reglas de vida</h2>
+      <p data-i18n="s2.p1">Cada celda del mapa tiene un valor entero de 0 a 3. Ese valor es, al mismo tiempo, el dato que guardas en tu matriz y el símbolo que imprimes en consola.</p>
       <table>
-        <thead><tr><th>Símbolo</th><th>Valor</th><th>Elemento</th><th>Descripción</th></tr></thead>
+        <thead><tr><th data-i18n="s2.th1">Símbolo</th><th data-i18n="s2.th2">Valor</th><th data-i18n="s2.th3">Elemento</th><th data-i18n="s2.th4">Descripción</th></tr></thead>
         <tbody>
-          <tr><td class="mono">·</td><td class="mono">0</td><td><b>Vacío</b></td><td>Suelo sin vida. Puede transformarse en árbol, animal o agua según sus vecinos.</td></tr>
-          <tr><td>🌲</td><td class="mono">1</td><td><b>Árbol</b></td><td>Nace o muere dependiendo de la presencia de agua cercana.</td></tr>
-          <tr><td>🐑</td><td class="mono">2</td><td><b>Animal</b></td><td>Necesita agua y árboles para sobrevivir; se mueve en generaciones pares.</td></tr>
-          <tr><td>💧</td><td class="mono">3</td><td><b>Agua</b></td><td>Fuente de vida. Permanece constante durante toda la simulación.</td></tr>
+          <tr><td class="mono">·</td><td class="mono">0</td><td><b data-i18n="s2.empty">Vacío</b></td><td data-i18n="s2.emptyDesc">Suelo sin vida. Puede transformarse en árbol, animal o agua según sus vecinos.</td></tr>
+          <tr><td>🌲</td><td class="mono">1</td><td><b data-i18n="s2.tree">Árbol</b></td><td data-i18n="s2.treeDesc">Nace o muere dependiendo de la presencia de agua cercana.</td></tr>
+          <tr><td>🐑</td><td class="mono">2</td><td><b data-i18n="s2.animal">Animal</b></td><td data-i18n="s2.animalDesc">Necesita agua y árboles para sobrevivir; se mueve en generaciones pares.</td></tr>
+          <tr><td>💧</td><td class="mono">3</td><td><b data-i18n="s2.water">Agua</b></td><td data-i18n="s2.waterDesc">Fuente de vida. Permanece constante durante toda la simulación.</td></tr>
         </tbody>
       </table>
     </section>
 
     <!-- 3. VECINDARIOS -->
     <section id="vecindarios">
-      <p class="eyebrow">03 · Vecindarios</p>
-      <h2>¿Quién es "vecino" de quién?</h2>
-      <p>El comportamiento de una celda depende de su entorno inmediato. El simulador define <b>dos anillos concéntricos</b> alrededor de cada celda central, y casi todas las reglas se reducen a contar elementos dentro de uno o ambos anillos.</p>
+      <p class="eyebrow" data-i18n="s3.eyebrow">03 · Vecindarios</p>
+      <h2 data-i18n="s3.h2">¿Quién es "vecino" de quién?</h2>
+      <p data-i18n="s3.p1">El comportamiento de una celda depende de su entorno inmediato. El simulador define <b>dos anillos concéntricos</b> alrededor de cada celda central, y casi todas las reglas se reducen a contar elementos dentro de uno o ambos anillos.</p>
 
       <div class="diagram-row">
         <div>
-          <p class="diagram-label">VECINDARIO INMEDIATO — 8 celdas</p>
+          <p class="diagram-label" data-i18n="s3.innerLabel">VECINDARIO INMEDIATO — 8 celdas</p>
           <div class="grid-wrap"><div class="eco-grid" id="ringInnerDiagram"></div></div>
         </div>
         <div style="max-width:320px;">
-          <p style="margin:0 0 8px;">Se usa para:</p>
+          <p style="margin:0 0 8px;" data-i18n="s3.usedFor">Se usa para:</p>
           <ul style="margin:0; padding-left:18px; color:var(--ink-soft);">
-            <li>Nacimiento de árboles y animales</li>
-            <li>Supervivencia que requiere contacto directo</li>
+            <li data-i18n="s3.li1">Nacimiento de árboles y animales</li>
+            <li data-i18n="s3.li2">Supervivencia que requiere contacto directo</li>
           </ul>
         </div>
       </div>
 
       <div class="diagram-row">
         <div>
-          <p class="diagram-label">VECINDARIO EXTERNO — 16 celdas adicionales</p>
+          <p class="diagram-label" data-i18n="s3.outerLabel">VECINDARIO EXTERNO — 16 celdas adicionales</p>
           <div class="grid-wrap"><div class="eco-grid" id="ringOuterDiagram"></div></div>
         </div>
         <div style="max-width:320px;">
-          <p style="margin:0 0 8px;">Se usa cuando la regla acepta presencia <i>extendida</i> de un recurso (por ejemplo, agua para que un árbol sobreviva), sin exigir contacto directo.</p>
+          <p style="margin:0 0 8px;" data-i18n="s3.outerP">Se usa cuando la regla acepta presencia <i>extendida</i> de un recurso (por ejemplo, agua para que un árbol sobreviva), sin exigir contacto directo.</p>
         </div>
       </div>
-      <div class="callout">
+      <div class="callout" data-i18n="s3.callout">
         <b>Tip de implementación:</b> define ambos anillos como listas de desplazamientos <code>(dx, dy)</code> relativos a la celda central. Una función <code>contarEnAnillo(tipo, anillo, x, y)</code> reutilizable te va a ahorrar muchísimo código repetido — y recuerda descartar las coordenadas que caen fuera del mapa.
       </div>
     </section>
 
     <!-- 4. GENERACIONES -->
     <section id="generaciones">
-      <p class="eyebrow">04 · Tipos de generación</p>
-      <h2>Generaciones impares vs. pares</h2>
-      <p>El simulador alterna entre dos modos según el número de generación. Esta alternancia es la razón por la que, en la práctica, conviene calcular primero <i>todas</i> las transformaciones y recién después mover a los animales — nunca al mismo tiempo.</p>
+      <p class="eyebrow" data-i18n="s4.eyebrow">04 · Tipos de generación</p>
+      <h2 data-i18n="s4.h2">Generaciones impares vs. pares</h2>
+      <p data-i18n="s4.p">El simulador alterna entre dos modos según el número de generación. Esta alternancia es la razón por la que, en la práctica, conviene calcular primero <i>todas</i> las transformaciones y recién después mover a los animales — nunca al mismo tiempo.</p>
       <div class="card-grid">
         <div class="card">
-          <h4>🌱 Generaciones normales <span class="mono" style="color:var(--ink-soft); font-size:0.8rem;">(impares: 1, 3, 5…)</span></h4>
+          <h4><span data-i18n="s4.card1h4">🌱 Generaciones normales</span> <span class="mono" style="color:var(--ink-soft); font-size:0.8rem;" data-i18n="s4.card1paren">(impares: 1, 3, 5…)</span></h4>
           <ul style="padding-left:18px; margin:0;">
-            <li>Los animales <b>no</b> se mueven.</li>
-            <li>Se procesan nacimientos de celdas vacías.</li>
-            <li>Se evalúa supervivencia <b>y</b> reproducción.</li>
+            <li data-i18n="s4.card1li1">Los animales <b>no</b> se mueven.</li>
+            <li data-i18n="s4.card1li2">Se procesan nacimientos de celdas vacías.</li>
+            <li data-i18n="s4.card1li3">Se evalúa supervivencia <b>y</b> reproducción.</li>
           </ul>
         </div>
         <div class="card">
-          <h4>🐾 Generaciones de movimiento <span class="mono" style="color:var(--ink-soft); font-size:0.8rem;">(pares: 2, 4, 6…)</span></h4>
+          <h4><span data-i18n="s4.card2h4">🐾 Generaciones de movimiento</span> <span class="mono" style="color:var(--ink-soft); font-size:0.8rem;" data-i18n="s4.card2paren">(pares: 2, 4, 6…)</span></h4>
           <ul style="padding-left:18px; margin:0;">
-            <li>Se procesan nacimientos de celdas vacías.</li>
-            <li>Se evalúa solo supervivencia (sin reproducción).</li>
-            <li>Los animales se mueven según el parámetro <code>n</code>.</li>
+            <li data-i18n="s4.card2li1">Se procesan nacimientos de celdas vacías.</li>
+            <li data-i18n="s4.card2li2">Se evalúa solo supervivencia (sin reproducción).</li>
+            <li data-i18n="s4.card2li3">Los animales se mueven según el parámetro <code>n</code>.</li>
           </ul>
         </div>
       </div>
@@ -711,122 +739,122 @@
 
     <!-- 5. REGLAS -->
     <section id="reglas">
-      <p class="eyebrow">05 · Reglas de transformación</p>
-      <h2>Lo que le pasa a cada celda, paso a paso</h2>
+      <p class="eyebrow" data-i18n="s5.eyebrow">05 · Reglas de transformación</p>
+      <h2 data-i18n="s5.h2">Lo que le pasa a cada celda, paso a paso</h2>
 
-      <h3 style="margin-top:34px;">Casillas vacías ( · — 0 )</h3>
-      <p>Una celda vacía puede convertirse en árbol, animal o agua. Se evalúan en este orden — y solo se aplica la primera condición que se cumpla. Cada demo resalta primero las celdas vecinas que disparan la regla, y luego transforma la celda central:</p>
+      <h3 style="margin-top:34px;" data-i18n="s5.h3empty">Casillas vacías ( · — 0 )</h3>
+      <p data-i18n="s5.introP">Una celda vacía puede convertirse en árbol, animal o agua. Se evalúan en este orden — y solo se aplica la primera condición que se cumpla. Cada demo resalta primero las celdas vecinas que disparan la regla, y luego transforma la celda central:</p>
 
       <div class="rule-demo" data-demo="birthTree">
         <div class="rule-demo-text">
-          <h4>1. Nace un árbol</h4>
-          <p style="margin-bottom:0;">Si hay <b>2 o más árboles</b> en su vecindario inmediato.</p>
+          <h4 data-i18n="s5.demo1h4">1. Nace un árbol</h4>
+          <p style="margin-bottom:0;" data-i18n="s5.demo1p">Si hay <b>2 o más árboles</b> en su vecindario inmediato.</p>
         </div>
         <div class="rule-demo-stage"></div>
       </div>
 
       <div class="rule-demo" data-demo="birthAnimal">
         <div class="rule-demo-text">
-          <h4>2. Nace un animal <span class="mono" style="font-size:0.78rem; color:var(--ink-soft); display:block; margin-top:4px;">(solo en generaciones impares)</span></h4>
-          <p style="margin-bottom:0;">Si hay <b>exactamente 2 animales</b> en el vecindario inmediato, y existe al menos un árbol y al menos un cuerpo de agua en cualquiera de los dos vecindarios.</p>
+          <h4><span data-i18n="s5.demo2h4">2. Nace un animal</span> <span class="mono" style="font-size:0.78rem; color:var(--ink-soft); display:block; margin-top:4px;" data-i18n="s5.demo2paren">(solo en generaciones impares)</span></h4>
+          <p style="margin-bottom:0;" data-i18n="s5.demo2p">Si hay <b>exactamente 2 animales</b> en el vecindario inmediato, y existe al menos un árbol y al menos un cuerpo de agua en cualquiera de los dos vecindarios.</p>
         </div>
         <div class="rule-demo-stage"></div>
       </div>
 
       <div class="rule-demo" data-demo="birthWater">
         <div class="rule-demo-text">
-          <h4>3. Nace agua</h4>
-          <p style="margin-bottom:0;">Si hay agua en alguna celda <b>de la fila superior</b> del vecindario inmediato, y la generación es múltiplo de 3 <span class="mono">(g % 3 == 0)</span>.</p>
+          <h4 data-i18n="s5.demo3h4">3. Nace agua</h4>
+          <p style="margin-bottom:0;" data-i18n="s5.demo3p">Si hay agua en alguna celda <b>de la fila superior</b> del vecindario inmediato, y la generación es múltiplo de 3 <span class="mono">(g % 3 == 0)</span>.</p>
         </div>
         <div class="rule-demo-stage"></div>
       </div>
 
-      <h3 style="margin-top:42px;">Árboles ( 🌲 — 1 )</h3>
+      <h3 style="margin-top:42px;" data-i18n="s5.h3tree">Árboles ( 🌲 — 1 )</h3>
       <div class="rule-demo" data-demo="treeDies">
         <div class="rule-demo-text">
-          <p style="margin-bottom:0;">Sobreviven si hay <b>al menos un cuerpo de agua</b> en su vecindario inmediato <i>o</i> externo. Sin agua en ningún anillo, el árbol muere.</p>
+          <p style="margin-bottom:0;" data-i18n="s5.treeP">Sobreviven si hay <b>al menos un cuerpo de agua</b> en su vecindario inmediato <i>o</i> externo. Sin agua en ningún anillo, el árbol muere.</p>
         </div>
         <div class="rule-demo-stage"></div>
       </div>
 
-      <h3 style="margin-top:42px;">Animales ( 🐑 — 2 )</h3>
+      <h3 style="margin-top:42px;" data-i18n="s5.h3animal">Animales ( 🐑 — 2 )</h3>
       <div class="rule-demo" data-demo="animalDies">
         <div class="rule-demo-text">
-          <p style="margin-bottom:0;">Sobreviven si hay <b>al menos un árbol y al menos un cuerpo de agua</b> en su vecindario. Faltando cualquiera de los dos, el animal muere.</p>
+          <p style="margin-bottom:0;" data-i18n="s5.animalP">Sobreviven si hay <b>al menos un árbol y al menos un cuerpo de agua</b> en su vecindario. Faltando cualquiera de los dos, el animal muere.</p>
         </div>
         <div class="rule-demo-stage"></div>
       </div>
 
-      <h3 style="margin-top:42px;">Agua ( 💧 — 3 )</h3>
+      <h3 style="margin-top:42px;" data-i18n="s5.h3water">Agua ( 💧 — 3 )</h3>
       <div class="card">
-        <p style="margin-bottom:0;">No cambia nunca. Una vez que una celda es agua, permanece como agua durante toda la simulación — por eso no necesita una demo: nada se mueve.</p>
+        <p style="margin-bottom:0;" data-i18n="s5.waterCard">No cambia nunca. Una vez que una celda es agua, permanece como agua durante toda la simulación — por eso no necesita una demo: nada se mueve.</p>
       </div>
 
-      <div class="callout">
+      <div class="callout" data-i18n="s5.callout">
         <b>Orden de evaluación:</b> todas las reglas de una generación se calculan sobre el estado <i>anterior</i> del mapa, nunca sobre el mapa que ya estás modificando. Si actualizas la matriz "en el lugar" mientras evalúas, vas a contaminar el resultado con celdas que ya cambiaron en esta misma generación. Calcula siempre el mapa siguiente en una matriz nueva.
       </div>
     </section>
 
     <!-- 6. MOVIMIENTO -->
     <section id="movimiento">
-      <p class="eyebrow">06 · Movimiento animal</p>
-      <h2>Animales en marcha (generaciones pares)</h2>
-      <p>El parámetro <code>n</code> define una única dirección global para todos los animales del mapa durante toda la simulación.</p>
+      <p class="eyebrow" data-i18n="s6.eyebrow">06 · Movimiento animal</p>
+      <h2 data-i18n="s6.h2">Animales en marcha (generaciones pares)</h2>
+      <p data-i18n="s6.p">El parámetro <code>n</code> define una única dirección global para todos los animales del mapa durante toda la simulación.</p>
       <table>
-        <thead><tr><th>Valor de n</th><th>Dirección</th></tr></thead>
+        <thead><tr><th data-i18n="s6.th1">Valor de n</th><th data-i18n="s6.th2">Dirección</th></tr></thead>
         <tbody>
-          <tr><td class="mono">1</td><td>Derecha →</td></tr>
-          <tr><td class="mono">2</td><td>Abajo ↓</td></tr>
-          <tr><td class="mono">3</td><td>Izquierda ←</td></tr>
-          <tr><td class="mono">4</td><td>Arriba ↑</td></tr>
+          <tr><td class="mono">1</td><td data-i18n="s6.dirRight">Derecha →</td></tr>
+          <tr><td class="mono">2</td><td data-i18n="s6.dirDown">Abajo ↓</td></tr>
+          <tr><td class="mono">3</td><td data-i18n="s6.dirLeft">Izquierda ←</td></tr>
+          <tr><td class="mono">4</td><td data-i18n="s6.dirUp">Arriba ↑</td></tr>
         </tbody>
       </table>
 
       <div class="move-demo-grid">
         <div class="move-demo" data-move="toEmpty">
-          <h4>Celda vacía</h4>
-          <span class="move-dir-label">n = 1 · derecha →</span>
+          <h4 data-i18n="s6.moveEmptyH4">Celda vacía</h4>
+          <span class="move-dir-label" data-i18n="s6.dirLabel">n = 1 · derecha →</span>
           <div class="rule-demo-stage"></div>
-          <p style="margin-bottom:0;">El animal avanza hacia la celda vacía.</p>
+          <p style="margin-bottom:0;" data-i18n="s6.moveEmptyP">El animal avanza hacia la celda vacía.</p>
         </div>
         <div class="move-demo" data-move="toTree">
-          <h4>Celda con árbol</h4>
-          <span class="move-dir-label">n = 1 · derecha →</span>
+          <h4 data-i18n="s6.moveTreeH4">Celda con árbol</h4>
+          <span class="move-dir-label" data-i18n="s6.dirLabel">n = 1 · derecha →</span>
           <div class="rule-demo-stage"></div>
-          <p style="margin-bottom:0;">El animal avanza y <b>consume</b> el árbol.</p>
+          <p style="margin-bottom:0;" data-i18n="s6.moveTreeP">El animal avanza y <b>consume</b> el árbol.</p>
         </div>
         <div class="move-demo" data-move="toWater">
-          <h4>Celda con agua</h4>
-          <span class="move-dir-label">n = 1 · derecha →</span>
+          <h4 data-i18n="s6.moveWaterH4">Celda con agua</h4>
+          <span class="move-dir-label" data-i18n="s6.dirLabel">n = 1 · derecha →</span>
           <div class="rule-demo-stage"></div>
-          <p style="margin-bottom:0;">El animal <b>no se mueve</b>.</p>
+          <p style="margin-bottom:0;" data-i18n="s6.moveWaterP">El animal <b>no se mueve</b>.</p>
         </div>
         <div class="move-demo" data-move="toAnimal">
-          <h4>Celda ocupada</h4>
-          <span class="move-dir-label">n = 1 · derecha →</span>
+          <h4 data-i18n="s6.moveAnimalH4">Celda ocupada</h4>
+          <span class="move-dir-label" data-i18n="s6.dirLabel">n = 1 · derecha →</span>
           <div class="rule-demo-stage"></div>
-          <p style="margin-bottom:0;">Intenta moverse hacia otro animal: no se mueve.</p>
+          <p style="margin-bottom:0;" data-i18n="s6.moveAnimalP">Intenta moverse hacia otro animal: no se mueve.</p>
         </div>
       </div>
-      <div class="callout">
+      <div class="callout" data-i18n="s6.callout">
         <b>Cuidado con el orden de recorrido:</b> si mueves animales mientras recorres la matriz fila por fila, un animal recién movido puede ser "vuelto a mover" si tu recorrido llega después a su nueva posición. La solución de referencia aplica primero todas las reglas de supervivencia/nacimiento sobre una copia, y luego resuelve los movimientos sobre esa copia hacia un mapa de resultado separado.
       </div>
     </section>
 
     <!-- 7. PARAMETROS -->
     <section id="parametros">
-      <p class="eyebrow">07 · Parámetros del programa</p>
-      <h2>Entrada desde la línea de comandos</h2>
-      <p>El programa se ejecuta pasando parámetros con el formato <code>clave=valor</code>, sin espacios alrededor del signo igual.</p>
+      <p class="eyebrow" data-i18n="s7.eyebrow">07 · Parámetros del programa</p>
+      <h2 data-i18n="s7.h2">Entrada desde la línea de comandos</h2>
+      <p data-i18n="s7.p">El programa se ejecuta pasando parámetros con el formato <code>clave=valor</code>, sin espacios alrededor del signo igual.</p>
       <table>
-        <thead><tr><th>Parámetro</th><th>Significado</th><th>Valores permitidos</th></tr></thead>
+        <thead><tr><th data-i18n="s7.th1">Parámetro</th><th data-i18n="s7.th2">Significado</th><th data-i18n="s7.th3">Valores permitidos</th></tr></thead>
         <tbody>
-          <tr><td class="mono">w</td><td>Ancho del mapa (columnas)</td><td class="mono">5, 10, 15, 20, 40, 80</td></tr>
-          <tr><td class="mono">h</td><td>Alto del mapa (filas)</td><td class="mono">5, 10, 15, 20, 40</td></tr>
-          <tr><td class="mono">g</td><td>Generaciones a simular</td><td class="mono">0–1000 (0 = infinito)</td></tr>
-          <tr><td class="mono">s</td><td>Tiempo entre generaciones (ms)</td><td class="mono">0, 250, 500, 1000, 5000</td></tr>
-          <tr><td class="mono">n</td><td>Dirección de movimiento <i>(opcional)</i></td><td class="mono">1, 2, 3, 4</td></tr>
-          <tr><td class="mono">m</td><td>Mapa inicial</td><td class="mono">texto codificado o <code>rnd</code></td></tr>
+          <tr><td class="mono">w</td><td data-i18n="s7.wMeaning">Ancho del mapa (columnas)</td><td class="mono">5, 10, 15, 20, 40, 80</td></tr>
+          <tr><td class="mono">h</td><td data-i18n="s7.hMeaning">Alto del mapa (filas)</td><td class="mono">5, 10, 15, 20, 40</td></tr>
+          <tr><td class="mono">g</td><td data-i18n="s7.gMeaning">Generaciones a simular</td><td class="mono" data-i18n="s7.gValues">0–1000 (0 = infinito)</td></tr>
+          <tr><td class="mono">s</td><td data-i18n="s7.sMeaning">Tiempo entre generaciones (ms)</td><td class="mono">0, 250, 500, 1000, 5000</td></tr>
+          <tr><td class="mono">n</td><td data-i18n="s7.nMeaning">Dirección de movimiento <i>(opcional)</i></td><td class="mono">1, 2, 3, 4</td></tr>
+          <tr><td class="mono">m</td><td data-i18n="s7.mMeaning">Mapa inicial</td><td class="mono" data-i18n="s7.mValues">texto codificado o <code>rnd</code></td></tr>
         </tbody>
       </table>
       <pre class="console"><span class="cmd">java Capstone w=ANCHO h=ALTO g=GENERACIONES s=TIEMPO n=DIRECCIÓN m=MAPA</span>
@@ -837,9 +865,9 @@
 
     <!-- 8. VALIDACIONES -->
     <section id="validaciones">
-      <p class="eyebrow">08 · Validaciones</p>
-      <h2>El programa nunca corre con datos inválidos</h2>
-      <p>Si algún parámetro no cumple sus valores permitidos, el programa no se ejecuta. En su lugar, informa con claridad cuál parámetro falló y cuáles ni siquiera llegaron a especificarse.</p>
+      <p class="eyebrow" data-i18n="s8.eyebrow">08 · Validaciones</p>
+      <h2 data-i18n="s8.h2">El programa nunca corre con datos inválidos</h2>
+      <p data-i18n="s8.p">Si algún parámetro no cumple sus valores permitidos, el programa no se ejecuta. En su lugar, informa con claridad cuál parámetro falló y cuáles ni siquiera llegaron a especificarse.</p>
       <pre class="console"><span class="cmd">java capstone w=5 h=12 n=1</span>
 
 width = [5]
@@ -848,25 +876,25 @@ generations = <span class="err">[No presente]</span>
 speed = <span class="err">[No Presente]</span>
 map = <span class="err">[No Presente]</span>
 n=1</pre>
-      <div class="callout">
+      <div class="callout" data-i18n="s8.callout">
         <b>Por qué importa:</b> esta validación es parte de la nota del proyecto, no un detalle cosmético. Antes de tocar la lógica del ecosistema, asegúrate de que tu parser de argumentos rechace y reporte cada parámetro fuera de rango, en lugar de lanzar excepciones sin control o usar valores por defecto silenciosos.
       </div>
     </section>
 
     <!-- 9. MAPA -->
     <section id="mapa">
-      <p class="eyebrow">09 · Mapa inicial (m)</p>
-      <h2>Dos formas de poblar el ecosistema</h2>
+      <p class="eyebrow" data-i18n="s9.eyebrow">09 · Mapa inicial (m)</p>
+      <h2 data-i18n="s9.h2">Dos formas de poblar el ecosistema</h2>
       <div class="card-grid">
         <div class="card">
-          <h4>Texto codificado</h4>
-          <p>Filas separadas por <code>#</code>. Los caracteres faltantes en una fila, o filas faltantes al final, se completan con <code>0</code> (vacío).</p>
+          <h4 data-i18n="s9.card1h4">Texto codificado</h4>
+          <p data-i18n="s9.card1p">Filas separadas por <code>#</code>. Los caracteres faltantes en una fila, o filas faltantes al final, se completan con <code>0</code> (vacío).</p>
           <p class="mono" style="margin-bottom:6px;">m=01030#201#0003##</p>
           <div class="grid-wrap"><div class="eco-grid" id="mapEncodedExample"></div></div>
         </div>
         <div class="card">
-          <h4>Aleatorio</h4>
-          <p>Con <code>m=rnd</code> el ecosistema se genera al azar, respetando las dimensiones <code>w</code> y <code>h</code>.</p>
+          <h4 data-i18n="s9.card2h4">Aleatorio</h4>
+          <p data-i18n="s9.card2p">Con <code>m=rnd</code> el ecosistema se genera al azar, respetando las dimensiones <code>w</code> y <code>h</code>.</p>
           <div class="grid-wrap"><div class="eco-grid" id="mapRandomExample"></div></div>
         </div>
       </div>
@@ -874,56 +902,56 @@ n=1</pre>
 
     <!-- 10. SIMULADOR -->
     <section id="simulador">
-      <p class="eyebrow">10 · Pruébalo tú mismo</p>
-      <h2>Simulador interactivo</h2>
-      <p>Configura los mismos parámetros que recibiría tu programa por consola y observa cómo evoluciona el ecosistema generación a generación. Este motor reproduce fielmente las reglas descritas arriba — úsalo para verificar tu intuición antes de programar, o para comparar el comportamiento de tu propia solución.</p>
+      <p class="eyebrow" data-i18n="s10.eyebrow">10 · Pruébalo tú mismo</p>
+      <h2 data-i18n="s10.h2">Simulador interactivo</h2>
+      <p data-i18n="s10.p">Configura los mismos parámetros que recibiría tu programa por consola y observa cómo evoluciona el ecosistema generación a generación. Este motor reproduce fielmente las reglas descritas arriba — úsalo para verificar tu intuición antes de programar, o para comparar el comportamiento de tu propia solución.</p>
 
       <div class="sim-panel">
         <div class="sim-controls">
           <div class="field">
-            <label for="in-w">w (ancho)</label>
+            <label for="in-w" data-i18n="s10.labelW">w (ancho)</label>
             <select id="in-w">
               <option>5</option><option selected>10</option><option>15</option><option>20</option><option>40</option><option>80</option>
             </select>
           </div>
           <div class="field">
-            <label for="in-h">h (alto)</label>
+            <label for="in-h" data-i18n="s10.labelH">h (alto)</label>
             <select id="in-h">
               <option>5</option><option selected>10</option><option>15</option><option>20</option><option>40</option>
             </select>
           </div>
           <div class="field">
-            <label for="in-g">g (generaciones)</label>
+            <label for="in-g" data-i18n="s10.labelG">g (generaciones)</label>
             <input id="in-g" type="number" min="0" max="1000" value="20">
           </div>
           <div class="field">
-            <label for="in-s">s (ms entre gen.)</label>
+            <label for="in-s" data-i18n="s10.labelS">s (ms entre gen.)</label>
             <select id="in-s">
               <option>0</option><option selected>500</option><option>250</option><option>1000</option><option>5000</option>
             </select>
           </div>
           <div class="field">
-            <label for="in-n">n (dirección)</label>
+            <label for="in-n" data-i18n="s10.labelN">n (dirección)</label>
             <select id="in-n">
-              <option value="1">1 — Derecha →</option>
-              <option value="2">2 — Abajo ↓</option>
-              <option value="3">3 — Izquierda ←</option>
-              <option value="4">4 — Arriba ↑</option>
+              <option value="1" data-i18n="s10.optRight">1 — Derecha →</option>
+              <option value="2" data-i18n="s10.optDown">2 — Abajo ↓</option>
+              <option value="3" data-i18n="s10.optLeft">3 — Izquierda ←</option>
+              <option value="4" data-i18n="s10.optUp">4 — Arriba ↑</option>
             </select>
           </div>
           <div class="field">
-            <label for="in-m">m (mapa)</label>
-            <input id="in-m" type="text" value="rnd" placeholder="rnd o 0103#2##">
+            <label for="in-m" data-i18n="s10.labelM">m (mapa)</label>
+            <input id="in-m" type="text" value="rnd" placeholder="rnd o 0103#2##" data-i18n-placeholder="s10.placeholderM">
           </div>
         </div>
 
         <div id="validationOutput"></div>
 
         <div class="sim-actions">
-          <button class="btn btn-primary" id="btnRun">▶ Iniciar</button>
-          <button class="btn btn-ghost" id="btnStep">⏭ Avanzar 1 gen.</button>
-          <button class="btn btn-ghost" id="btnPause">⏸ Pausar</button>
-          <button class="btn btn-ghost" id="btnReset">⟲ Reiniciar</button>
+          <button class="btn btn-primary" id="btnRun" data-i18n="s10.btnRun">▶ Iniciar</button>
+          <button class="btn btn-ghost" id="btnStep" data-i18n="s10.btnStep">⏭ Avanzar 1 gen.</button>
+          <button class="btn btn-ghost" id="btnPause" data-i18n="s10.btnPause">⏸ Pausar</button>
+          <button class="btn btn-ghost" id="btnReset" data-i18n="s10.btnReset">⟲ Reiniciar</button>
           <span class="gen-badge" id="simGenBadge">Gen: —</span>
         </div>
 
@@ -931,12 +959,12 @@ n=1</pre>
           <div class="grid-wrap"><div id="simGrid" class="eco-grid"></div></div>
           <div class="sim-output">
             <div class="legend">
-              <div class="legend-item"><div class="cell t-0">·</div> Vacío</div>
-              <div class="legend-item"><div class="cell t-1">🌲</div> Árbol</div>
-              <div class="legend-item"><div class="cell t-2">🐑</div> Animal</div>
-              <div class="legend-item"><div class="cell t-3">💧</div> Agua</div>
+              <div class="legend-item"><div class="cell t-0">·</div> <span data-i18n="s10.legendEmpty">Vacío</span></div>
+              <div class="legend-item"><div class="cell t-1">🌲</div> <span data-i18n="s10.legendTree">Árbol</span></div>
+              <div class="legend-item"><div class="cell t-2">🐑</div> <span data-i18n="s10.legendAnimal">Animal</span></div>
+              <div class="legend-item"><div class="cell t-3">💧</div> <span data-i18n="s10.legendWater">Agua</span></div>
             </div>
-            <pre class="console" id="simLog">Configura los parámetros y presiona Iniciar.</pre>
+            <pre class="console" id="simLog" data-i18n="s10.simLogPlaceholder">Configura los parámetros y presiona Iniciar.</pre>
           </div>
         </div>
       </div>
@@ -944,48 +972,506 @@ n=1</pre>
 
     <!-- 11. FAQ -->
     <section id="faq">
-      <p class="eyebrow">11 · Preguntas frecuentes</p>
-      <h2>Dudas típicas al implementar</h2>
+      <p class="eyebrow" data-i18n="s11.eyebrow">11 · Preguntas frecuentes</p>
+      <h2 data-i18n="s11.h2">Dudas típicas al implementar</h2>
 
       <details class="faq">
-        <summary>¿En qué orden debo evaluar las reglas dentro de una generación?</summary>
-        <p>Primero calcula el estado siguiente de <i>todas</i> las celdas (nacimientos, supervivencia, muerte) leyendo siempre del mapa de la generación anterior, y guarda el resultado en una matriz nueva. Solo después de tener ese mapa completo, si la generación es par, recorre esa matriz nueva para resolver los movimientos de animales hacia un tercer mapa de resultado. Mezclar ambos pasos en un solo recorrido es la causa más común de comportamientos extraños.</p>
+        <summary data-i18n="faq1.q">¿En qué orden debo evaluar las reglas dentro de una generación?</summary>
+        <p data-i18n="faq1.a">Primero calcula el estado siguiente de <i>todas</i> las celdas (nacimientos, supervivencia, muerte) leyendo siempre del mapa de la generación anterior, y guarda el resultado en una matriz nueva. Solo después de tener ese mapa completo, si la generación es par, recorre esa matriz nueva para resolver los movimientos de animales hacia un tercer mapa de resultado. Mezclar ambos pasos en un solo recorrido es la causa más común de comportamientos extraños.</p>
       </details>
 
       <details class="faq">
-        <summary>¿Qué pasa con los vecinos que caen fuera del mapa?</summary>
-        <p>Simplemente se ignoran: no cuentan como ningún tipo de elemento ni generan error. El mapa no es toroidal (no "da la vuelta"); los bordes y esquinas tienen, naturalmente, menos vecinos disponibles.</p>
+        <summary data-i18n="faq2.q">¿Qué pasa con los vecinos que caen fuera del mapa?</summary>
+        <p data-i18n="faq2.a">Simplemente se ignoran: no cuentan como ningún tipo de elemento ni generan error. El mapa no es toroidal (no "da la vuelta"); los bordes y esquinas tienen, naturalmente, menos vecinos disponibles.</p>
       </details>
 
       <details class="faq">
-        <summary>¿La regla de nacimiento de agua usa la generación antes o después de incrementarla?</summary>
-        <p>Usa el número de la generación que estás a punto de producir (la "siguiente"). Si vas a imprimir "Gen: 3", la condición de múltiplo de 3 para el nacimiento de agua se evalúa con ese mismo número.</p>
+        <summary data-i18n="faq3.q">¿La regla de nacimiento de agua usa la generación antes o después de incrementarla?</summary>
+        <p data-i18n="faq3.a">Usa el número de la generación que estás a punto de producir (la "siguiente"). Si vas a imprimir "Gen: 3", la condición de múltiplo de 3 para el nacimiento de agua se evalúa con ese mismo número.</p>
       </details>
 
       <details class="faq">
-        <summary>¿Puede un animal "saltarse" en cadena varias celdas en un mismo paso?</summary>
-        <p>No. Cada animal se mueve, como máximo, una celda por generación de movimiento, y solo si la celda destino está vacía o tiene un árbol. Si la celda destino tiene agua u otro animal, simplemente no se mueve esa generación.</p>
+        <summary data-i18n="faq4.q">¿Puede un animal "saltarse" en cadena varias celdas en un mismo paso?</summary>
+        <p data-i18n="faq4.a">No. Cada animal se mueve, como máximo, una celda por generación de movimiento, y solo si la celda destino está vacía o tiene un árbol. Si la celda destino tiene agua u otro animal, simplemente no se mueve esa generación.</p>
       </details>
 
       <details class="faq">
-        <summary>¿Qué hago si dos animales "intentan" moverse a la misma celda vacía?</summary>
-        <p>Esto no debería ocurrir si recorres la matriz de forma consistente (por ejemplo, fila por fila) y aplicas el movimiento de cada animal contra el mapa de resultado a medida que avanzas, marcando la celda destino como ocupada inmediatamente. Define con claridad tu orden de recorrido y sé consistente con él durante todo el proyecto.</p>
+        <summary data-i18n="faq5.q">¿Qué hago si dos animales "intentan" moverse a la misma celda vacía?</summary>
+        <p data-i18n="faq5.a">Esto no debería ocurrir si recorres la matriz de forma consistente (por ejemplo, fila por fila) y aplicas el movimiento de cada animal contra el mapa de resultado a medida que avanzas, marcando la celda destino como ocupada inmediatamente. Define con claridad tu orden de recorrido y sé consistente con él durante todo el proyecto.</p>
       </details>
 
       <details class="faq">
-        <summary>¿El parámetro m siempre debe tener exactamente w×h caracteres?</summary>
-        <p>No. Las filas o caracteres faltantes se completan con 0 (vacío) automáticamente. Esto permite mapas de prueba cortos como <code>m=01030#201#0003##</code> sin tener que escribir cada celda.</p>
+        <summary data-i18n="faq6.q">¿El parámetro m siempre debe tener exactamente w×h caracteres?</summary>
+        <p data-i18n="faq6.a">No. Las filas o caracteres faltantes se completan con 0 (vacío) automáticamente. Esto permite mapas de prueba cortos como <code>m=01030#201#0003##</code> sin tener que escribir cada celda.</p>
       </details>
     </section>
 
     <footer>
-      <p>Guía interactiva creada para acompañar el Proyecto Final de Programación 1 — Jala University. El motor de simulación de esta página es una implementación de referencia independiente de tu entrega en Java; úsalo para comparar comportamiento, no como sustituto de tu propio código.</p>
+      <p data-i18n="footer.text">Guía interactiva creada para acompañar el Proyecto Final de Programación 1 — Jala University. El motor de simulación de esta página es una implementación de referencia independiente de tu entrega en Java; úsalo para comparar comportamiento, no como sustituto de tu propio código.</p>
     </footer>
 
   </main>
 </div>
 
 <script>
+/* =========================================================
+   INTERNACIONALIZACIÓN (ES por defecto · EN · PT-BR)
+   ========================================================= */
+const SUPPORTED_LANGS = ['es','en','pt'];
+let currentLang = 'es';
+
+/* Diccionario con strings generadas dinámicamente por JS
+   (no viven en el HTML, así que necesitan los 3 idiomas explícitos) */
+const T = {
+  es: {
+    genInicial: `Gen: Inicial`,
+    genPrefix: `Gen: `,
+    genDash: `Gen: —`,
+    demoBefore: `Antes:`,
+    demoAfter: `Después:`,
+    demoReplay: `⟲ Repetir`,
+    valGenInvalid: `Inválido (0–1000)`,
+    valSpeedInvalid: `Inválido (0,250,500,1000,5000)`,
+    valNInvalid: `Inválido (1–4)`,
+    valMapInvalid: `Carácter inválido en el mapa`,
+    valWHInvalid: `Inválido`,
+    valInfinite: `0 (infinito)`,
+    valOk: `OK`,
+    demo: {
+      birthTree:   { before: `2+ árboles vecinos`,            after: `nace un árbol 🌲` },
+      birthAnimal: { before: `2 animales + árbol + agua`,     after: `nace un animal 🐑` },
+      birthWater:  { before: `agua arriba, g % 3 == 0`,       after: `nace agua 💧` },
+      treeDies:    { before: `sin agua en ningún anillo`,     after: `el árbol muere` },
+      animalDies:  { before: `hay árbol, pero no hay agua`,   after: `el animal muere` }
+    }
+  },
+  en: {
+    genInicial: `Gen: Initial`,
+    genPrefix: `Gen: `,
+    genDash: `Gen: —`,
+    demoBefore: `Before:`,
+    demoAfter: `After:`,
+    demoReplay: `⟲ Replay`,
+    valGenInvalid: `Invalid (0–1000)`,
+    valSpeedInvalid: `Invalid (0,250,500,1000,5000)`,
+    valNInvalid: `Invalid (1–4)`,
+    valMapInvalid: `Invalid character in the map`,
+    valWHInvalid: `Invalid`,
+    valInfinite: `0 (infinite)`,
+    valOk: `OK`,
+    demo: {
+      birthTree:   { before: `2+ neighboring trees`,          after: `a tree is born 🌲` },
+      birthAnimal: { before: `2 animals + tree + water`,      after: `an animal is born 🐑` },
+      birthWater:  { before: `water above, g % 3 == 0`,       after: `water is born 💧` },
+      treeDies:    { before: `no water in either ring`,       after: `the tree dies` },
+      animalDies:  { before: `there's a tree, but no water`,  after: `the animal dies` }
+    }
+  },
+  pt: {
+    genInicial: `Ger: Inicial`,
+    genPrefix: `Ger: `,
+    genDash: `Ger: —`,
+    demoBefore: `Antes:`,
+    demoAfter: `Depois:`,
+    demoReplay: `⟲ Repetir`,
+    valGenInvalid: `Inválido (0–1000)`,
+    valSpeedInvalid: `Inválido (0,250,500,1000,5000)`,
+    valNInvalid: `Inválido (1–4)`,
+    valMapInvalid: `Caractere inválido no mapa`,
+    valWHInvalid: `Inválido`,
+    valInfinite: `0 (infinito)`,
+    valOk: `OK`,
+    demo: {
+      birthTree:   { before: `2+ árvores vizinhas`,           after: `nasce uma árvore 🌲` },
+      birthAnimal: { before: `2 animais + árvore + água`,     after: `nasce um animal 🐑` },
+      birthWater:  { before: `água acima, g % 3 == 0`,        after: `nasce água 💧` },
+      treeDies:    { before: `sem água em nenhum anel`,       after: `a árvore morre` },
+      animalDies:  { before: `há árvore, mas não há água`,    after: `o animal morre` }
+    }
+  }
+};
+function t(key){
+  const path = key.split('.');
+  let node = T[currentLang];
+  for(const p of path){ node = node && node[p]; }
+  if(node===undefined){
+    node = T.es;
+    for(const p of path){ node = node && node[p]; }
+  }
+  return node;
+}
+
+/* Diccionario para el contenido estático del HTML (data-i18n).
+   El español NO se duplica aquí: se cachea desde el propio HTML
+   en el momento de cargar la página, así que solo hace falta EN/PT. */
+const I18N = {
+  en: {
+    'mobilebar.title': `🌿 Sustainable Ecosystem — Capstone Guide`,
+    'brand.title': `Sustainable<br>Ecosystem`,
+    'brand.subtitle': `Capstone project guide`,
+    'nav.overview': `Overview`,
+    'nav.actores': `Ecosystem actors`,
+    'nav.vecindarios': `Neighborhoods`,
+    'nav.generaciones': `Generation types`,
+    'nav.reglas': `Transformation rules`,
+    'nav.movimiento': `Animal movement`,
+    'nav.parametros': `CLI parameters`,
+    'nav.validaciones': `Validation`,
+    'nav.mapa': `Initial map (m)`,
+    'nav.simulador': `Interactive simulator`,
+    'nav.faq': `FAQ`,
+    'hero.eyebrow': `Jala University — Programming 1`,
+    'hero.h1': `An ecosystem that <em>lives</em><br>line by line of code.`,
+    'hero.lede': `This interactive guide accompanies the Final Project: a cellular simulator in Java where trees, animals and water are born, survive and move according to rules that you will program. Here you can see those rules in action before writing a single line.`,
+    'hero.cta1': `Open the simulator →`,
+    'hero.cta2': `View the rules`,
+    'hero.previewLabel': `preview · <b>m=rnd</b>`,
+    's1.eyebrow': `01 · Overview`,
+    's1.h2': `What will you build?`,
+    's1.p1': `An ecological simulator in Java that represents, through a cellular automaton, the behavior of a natural ecosystem. Through simple rules applied cell by cell, the program models the <b>birth</b>, <b>survival</b> and <b>movement</b> of the elements on a rectangular map.`,
+    's1.p2': `There is no artificial intelligence or hidden randomness in the rule logic (the only randomness occurs, optionally, when generating the initial map). All ecosystem behavior emerges from comparing each cell with its neighbors, generation after generation — the same principle behind Conway's Game of Life, but with four cell types and its own ecological rules.`,
+    's1.callout': `<b>Key idea:</b> your program doesn't need to "know" what a forest or a herd is. It just needs to apply, for each cell, the correct rule based on its current type and what's around it. The ecosystem's complexity is an effect, not an instruction.`,
+    's2.eyebrow': `02 · Ecosystem actors`,
+    's2.h2': `Four cell types, four rules of life`,
+    's2.p1': `Each cell on the map holds an integer value from 0 to 3. That value is, at the same time, the data you store in your matrix and the symbol you print to the console.`,
+    's2.th1': `Symbol`, 's2.th2': `Value`, 's2.th3': `Element`, 's2.th4': `Description`,
+    's2.empty': `Empty`, 's2.emptyDesc': `Lifeless ground. Can transform into a tree, animal or water depending on its neighbors.`,
+    's2.tree': `Tree`, 's2.treeDesc': `Is born or dies depending on the presence of nearby water.`,
+    's2.animal': `Animal`, 's2.animalDesc': `Needs water and trees to survive; moves on even generations.`,
+    's2.water': `Water`, 's2.waterDesc': `Source of life. Remains constant throughout the entire simulation.`,
+    's3.eyebrow': `03 · Neighborhoods`,
+    's3.h2': `Who is a "neighbor" of whom?`,
+    's3.p1': `A cell's behavior depends on its immediate surroundings. The simulator defines <b>two concentric rings</b> around each center cell, and almost every rule comes down to counting elements within one or both rings.`,
+    's3.innerLabel': `IMMEDIATE NEIGHBORHOOD — 8 cells`,
+    's3.usedFor': `Used for:`,
+    's3.li1': `Birth of trees and animals`,
+    's3.li2': `Survival that requires direct contact`,
+    's3.outerLabel': `OUTER NEIGHBORHOOD — 16 additional cells`,
+    's3.outerP': `Used when a rule accepts the <i>extended</i> presence of a resource (for example, water for a tree to survive), without requiring direct contact.`,
+    's3.callout': `<b>Implementation tip:</b> define both rings as lists of <code>(dx, dy)</code> offsets relative to the center cell. A reusable <code>countInRing(type, ring, x, y)</code> function will save you a lot of repeated code — and remember to discard coordinates that fall outside the map.`,
+    's4.eyebrow': `04 · Generation types`,
+    's4.h2': `Odd vs. even generations`,
+    's4.p': `The simulator alternates between two modes depending on the generation number. This is why, in practice, it's best to first calculate <i>all</i> the transformations and only afterward move the animals — never at the same time.`,
+    's4.card1h4': `🌱 Normal generations`,
+    's4.card1paren': `(odd: 1, 3, 5…)`,
+    's4.card1li1': `Animals do <b>not</b> move.`,
+    's4.card1li2': `Births in empty cells are processed.`,
+    's4.card1li3': `Survival <b>and</b> reproduction are evaluated.`,
+    's4.card2h4': `🐾 Movement generations`,
+    's4.card2paren': `(even: 2, 4, 6…)`,
+    's4.card2li1': `Births in empty cells are processed.`,
+    's4.card2li2': `Only survival is evaluated (no reproduction).`,
+    's4.card2li3': `Animals move according to the <code>n</code> parameter.`,
+    's5.eyebrow': `05 · Transformation rules`,
+    's5.h2': `What happens to each cell, step by step`,
+    's5.h3empty': `Empty cells ( · — 0 )`,
+    's5.introP': `An empty cell can turn into a tree, an animal or water. They are evaluated in this order — and only the first condition that is met applies. Each demo first highlights the neighboring cells that trigger the rule, then transforms the center cell:`,
+    's5.demo1h4': `1. A tree is born`,
+    's5.demo1p': `If there are <b>2 or more trees</b> in its immediate neighborhood.`,
+    's5.demo2h4': `2. An animal is born`,
+    's5.demo2paren': `(only on odd generations)`,
+    's5.demo2p': `If there are <b>exactly 2 animals</b> in the immediate neighborhood, and there is at least one tree and one body of water in either neighborhood.`,
+    's5.demo3h4': `3. Water is born`,
+    's5.demo3p': `If there is water in any cell <b>in the top row</b> of the immediate neighborhood, and the generation is a multiple of 3 <span class="mono">(g % 3 == 0)</span>.`,
+    's5.h3tree': `Trees ( 🌲 — 1 )`,
+    's5.treeP': `They survive if there is <b>at least one body of water</b> in their immediate <i>or</i> outer neighborhood. With no water in either ring, the tree dies.`,
+    's5.h3animal': `Animals ( 🐑 — 2 )`,
+    's5.animalP': `They survive if there is <b>at least one tree and at least one body of water</b> in their neighborhood. Missing either one, the animal dies.`,
+    's5.h3water': `Water ( 💧 — 3 )`,
+    's5.waterCard': `It never changes. Once a cell is water, it stays water for the entire simulation — that's why it doesn't need a demo: nothing moves.`,
+    's5.callout': `<b>Evaluation order:</b> all the rules of a generation are calculated over the <i>previous</i> state of the map, never over the map you are already modifying. If you update the matrix "in place" while evaluating, you'll contaminate the result with cells that already changed in this same generation. Always compute the next map into a new matrix.`,
+    's6.eyebrow': `06 · Animal movement`,
+    's6.h2': `Animals on the move (even generations)`,
+    's6.p': `The <code>n</code> parameter defines a single global direction for all animals on the map throughout the entire simulation.`,
+    's6.th1': `Value of n`, 's6.th2': `Direction`,
+    's6.dirRight': `Right →`, 's6.dirDown': `Down ↓`, 's6.dirLeft': `Left ←`, 's6.dirUp': `Up ↑`,
+    's6.moveEmptyH4': `Empty cell`,
+    's6.moveEmptyP': `The animal moves into the empty cell.`,
+    's6.moveTreeH4': `Cell with a tree`,
+    's6.moveTreeP': `The animal moves and <b>consumes</b> the tree.`,
+    's6.moveWaterH4': `Cell with water`,
+    's6.moveWaterP': `The animal <b>does not move</b>.`,
+    's6.moveAnimalH4': `Occupied cell`,
+    's6.moveAnimalP': `It tries to move toward another animal: it doesn't move.`,
+    's6.dirLabel': `n = 1 · right →`,
+    's6.callout': `<b>Watch out for traversal order:</b> if you move animals while traversing the matrix row by row, a recently moved animal can get "moved again" if your traversal later reaches its new position. The reference solution first applies all survival/birth rules onto a copy, and only afterward resolves movements from that copy into a separate result map.`,
+    's7.eyebrow': `07 · Program parameters`,
+    's7.h2': `Input from the command line`,
+    's7.p': `The program runs by passing parameters in <code>key=value</code> format, with no spaces around the equals sign.`,
+    's7.th1': `Parameter`, 's7.th2': `Meaning`, 's7.th3': `Allowed values`,
+    's7.wMeaning': `Map width (columns)`,
+    's7.hMeaning': `Map height (rows)`,
+    's7.gMeaning': `Generations to simulate`,
+    's7.gValues': `0–1000 (0 = infinite)`,
+    's7.sMeaning': `Time between generations (ms)`,
+    's7.nMeaning': `Movement direction <i>(optional)</i>`,
+    's7.mMeaning': `Initial map`,
+    's7.mValues': `encoded text or <code>rnd</code>`,
+    's8.eyebrow': `08 · Validation`,
+    's8.h2': `The program never runs with invalid data`,
+    's8.p': `If any parameter doesn't meet its allowed values, the program does not run. Instead, it clearly reports which parameter failed and which ones weren't even specified.`,
+    's8.callout': `<b>Why it matters:</b> this validation is part of the project grade, not a cosmetic detail. Before touching the ecosystem logic, make sure your argument parser rejects and reports every out-of-range parameter, instead of throwing uncontrolled exceptions or silently falling back to default values.`,
+    's9.eyebrow': `09 · Initial map (m)`,
+    's9.h2': `Two ways to populate the ecosystem`,
+    's9.card1h4': `Encoded text`,
+    's9.card1p': `Rows separated by <code>#</code>. Missing characters in a row, or missing rows at the end, are filled in with <code>0</code> (empty).`,
+    's9.card2h4': `Random`,
+    's9.card2p': `With <code>m=rnd</code> the ecosystem is generated randomly, respecting the <code>w</code> and <code>h</code> dimensions.`,
+    's10.eyebrow': `10 · Try it yourself`,
+    's10.h2': `Interactive simulator`,
+    's10.p': `Set the same parameters your program would receive from the console and watch how the ecosystem evolves generation by generation. This engine faithfully reproduces the rules described above — use it to check your intuition before coding, or to compare it against your own solution's behavior.`,
+    's10.labelW': `w (width)`, 's10.labelH': `h (height)`, 's10.labelG': `g (generations)`,
+    's10.labelS': `s (ms between gen.)`, 's10.labelN': `n (direction)`, 's10.labelM': `m (map)`,
+    's10.optRight': `1 — Right →`, 's10.optDown': `2 — Down ↓`, 's10.optLeft': `3 — Left ←`, 's10.optUp': `4 — Up ↑`,
+    's10.placeholderM': `rnd or 0103#2##`,
+    's10.btnRun': `▶ Start`,
+    's10.btnStep': `⏭ Step 1 gen.`,
+    's10.btnPause': `⏸ Pause`,
+    's10.btnReset': `⟲ Reset`,
+    's10.legendEmpty': `Empty`, 's10.legendTree': `Tree`, 's10.legendAnimal': `Animal`, 's10.legendWater': `Water`,
+    's10.simLogPlaceholder': `Set the parameters and press Start.`,
+    's11.eyebrow': `11 · FAQ`,
+    's11.h2': `Common implementation questions`,
+    'faq1.q': `In what order should I evaluate the rules within a generation?`,
+    'faq1.a': `First compute the next state of <i>all</i> cells (births, survival, death) always reading from the previous generation's map, and store the result in a new matrix. Only after you have that complete map, if the generation is even, traverse that new matrix to resolve animal movements into a third result map. Mixing both steps into a single pass is the most common cause of strange behavior.`,
+    'faq2.q': `What happens with neighbors that fall outside the map?`,
+    'faq2.a': `They are simply ignored: they don't count as any element type and don't cause an error. The map is not toroidal (it doesn't "wrap around"); edges and corners naturally have fewer available neighbors.`,
+    'faq3.q': `Does the water-birth rule use the generation before or after incrementing it?`,
+    'faq3.a': `It uses the number of the generation you are about to produce (the "next" one). If you are about to print "Gen: 3", the multiple-of-3 condition for water birth is evaluated with that same number.`,
+    'faq4.q': `Can an animal "chain-jump" several cells in a single step?`,
+    'faq4.a': `No. Each animal moves, at most, one cell per movement generation, and only if the destination cell is empty or has a tree. If the destination cell has water or another animal, it simply doesn't move that generation.`,
+    'faq5.q': `What do I do if two animals "try" to move into the same empty cell?`,
+    'faq5.a': `This shouldn't happen if you traverse the matrix consistently (for example, row by row) and apply each animal's movement against the result map as you go, immediately marking the destination cell as occupied. Clearly define your traversal order and stay consistent with it throughout the whole project.`,
+    'faq6.q': `Does the m parameter always need exactly w×h characters?`,
+    'faq6.a': `No. Missing rows or characters are automatically filled in with 0 (empty). This allows short test maps like <code>m=01030#201#0003##</code> without having to write out every cell.`,
+    'footer.text': `Interactive guide created to accompany the Programming 1 Final Project — Jala University. This page's simulation engine is an independent reference implementation, not your Java submission; use it to compare behavior, not as a substitute for your own code.`
+  },
+  pt: {
+    'mobilebar.title': `🌿 Ecossistema Sustentável — Guia Capstone`,
+    'brand.title': `Ecossistema<br>Sustentável`,
+    'brand.subtitle': `Guia do projeto Capstone`,
+    'nav.overview': `Visão geral`,
+    'nav.actores': `Atores do ecossistema`,
+    'nav.vecindarios': `Vizinhanças`,
+    'nav.generaciones': `Tipos de geração`,
+    'nav.reglas': `Regras de transformação`,
+    'nav.movimiento': `Movimento animal`,
+    'nav.parametros': `Parâmetros CLI`,
+    'nav.validaciones': `Validações`,
+    'nav.mapa': `Mapa inicial (m)`,
+    'nav.simulador': `Simulador interativo`,
+    'nav.faq': `Perguntas frequentes`,
+    'hero.eyebrow': `Jala University — Programação 1`,
+    'hero.h1': `Um ecossistema que <em>vive</em><br>linha por linha de código.`,
+    'hero.lede': `Este guia interativo acompanha o Projeto Final: um simulador celular em Java onde árvores, animais e água nascem, sobrevivem e se movem de acordo com regras que você vai programar. Aqui você pode ver essas regras em ação antes de escrever uma única linha.`,
+    'hero.cta1': `Abrir o simulador →`,
+    'hero.cta2': `Ver as regras`,
+    'hero.previewLabel': `prévia · <b>m=rnd</b>`,
+    's1.eyebrow': `01 · Visão geral`,
+    's1.h2': `O que você vai construir?`,
+    's1.p1': `Um simulador ecológico em Java que representa, por meio de um autômato celular, o comportamento de um ecossistema natural. Através de regras simples aplicadas célula por célula, o programa modela o <b>nascimento</b>, a <b>sobrevivência</b> e o <b>movimento</b> dos elementos de um mapa retangular.`,
+    's1.p2': `Não há inteligência artificial nem aleatoriedade oculta na lógica das regras (a única aleatoriedade ocorre, opcionalmente, ao gerar o mapa inicial). Todo o comportamento do ecossistema surge de comparar cada célula com suas vizinhas, geração após geração — o mesmo princípio por trás do Jogo da Vida de Conway, mas com quatro tipos de célula e regras ecológicas próprias.`,
+    's1.callout': `<b>Ideia-chave:</b> seu programa não precisa "saber" o que é uma floresta ou um rebanho. Ele só precisa aplicar, para cada célula, a regra correta de acordo com seu tipo atual e o que há ao redor. A complexidade do ecossistema é um efeito, não uma instrução.`,
+    's2.eyebrow': `02 · Atores do ecossistema`,
+    's2.h2': `Quatro tipos de célula, quatro regras de vida`,
+    's2.p1': `Cada célula do mapa tem um valor inteiro de 0 a 3. Esse valor é, ao mesmo tempo, o dado que você guarda na sua matriz e o símbolo que você imprime no console.`,
+    's2.th1': `Símbolo`, 's2.th2': `Valor`, 's2.th3': `Elemento`, 's2.th4': `Descrição`,
+    's2.empty': `Vazio`, 's2.emptyDesc': `Solo sem vida. Pode se transformar em árvore, animal ou água conforme seus vizinhos.`,
+    's2.tree': `Árvore`, 's2.treeDesc': `Nasce ou morre dependendo da presença de água próxima.`,
+    's2.animal': `Animal`, 's2.animalDesc': `Precisa de água e árvores para sobreviver; move-se em gerações pares.`,
+    's2.water': `Água`, 's2.waterDesc': `Fonte de vida. Permanece constante durante toda a simulação.`,
+    's3.eyebrow': `03 · Vizinhanças`,
+    's3.h2': `Quem é "vizinho" de quem?`,
+    's3.p1': `O comportamento de uma célula depende do seu entorno imediato. O simulador define <b>dois anéis concêntricos</b> ao redor de cada célula central, e quase todas as regras se resumem a contar elementos dentro de um ou ambos os anéis.`,
+    's3.innerLabel': `VIZINHANÇA IMEDIATA — 8 células`,
+    's3.usedFor': `Usado para:`,
+    's3.li1': `Nascimento de árvores e animais`,
+    's3.li2': `Sobrevivência que exige contato direto`,
+    's3.outerLabel': `VIZINHANÇA EXTERNA — 16 células adicionais`,
+    's3.outerP': `É usada quando a regra aceita a presença <i>estendida</i> de um recurso (por exemplo, água para uma árvore sobreviver), sem exigir contato direto.`,
+    's3.callout': `<b>Dica de implementação:</b> defina ambos os anéis como listas de deslocamentos <code>(dx, dy)</code> relativos à célula central. Uma função reutilizável <code>contarNoAnel(tipo, anel, x, y)</code> vai te poupar muito código repetido — e lembre-se de descartar as coordenadas que caem fora do mapa.`,
+    's4.eyebrow': `04 · Tipos de geração`,
+    's4.h2': `Gerações ímpares vs. pares`,
+    's4.p': `O simulador alterna entre dois modos de acordo com o número da geração. Essa alternância é o motivo pelo qual, na prática, convém calcular primeiro <i>todas</i> as transformações e só depois mover os animais — nunca ao mesmo tempo.`,
+    's4.card1h4': `🌱 Gerações normais`,
+    's4.card1paren': `(ímpares: 1, 3, 5…)`,
+    's4.card1li1': `Os animais <b>não</b> se movem.`,
+    's4.card1li2': `Nascimentos em células vazias são processados.`,
+    's4.card1li3': `Sobrevivência <b>e</b> reprodução são avaliadas.`,
+    's4.card2h4': `🐾 Gerações de movimento`,
+    's4.card2paren': `(pares: 2, 4, 6…)`,
+    's4.card2li1': `Nascimentos em células vazias são processados.`,
+    's4.card2li2': `Apenas a sobrevivência é avaliada (sem reprodução).`,
+    's4.card2li3': `Os animais se movem de acordo com o parâmetro <code>n</code>.`,
+    's5.eyebrow': `05 · Regras de transformação`,
+    's5.h2': `O que acontece com cada célula, passo a passo`,
+    's5.h3empty': `Células vazias ( · — 0 )`,
+    's5.introP': `Uma célula vazia pode se transformar em árvore, animal ou água. São avaliadas nesta ordem — e apenas a primeira condição satisfeita é aplicada. Cada demonstração primeiro destaca as células vizinhas que disparam a regra, e depois transforma a célula central:`,
+    's5.demo1h4': `1. Nasce uma árvore`,
+    's5.demo1p': `Se houver <b>2 ou mais árvores</b> na sua vizinhança imediata.`,
+    's5.demo2h4': `2. Nasce um animal`,
+    's5.demo2paren': `(apenas em gerações ímpares)`,
+    's5.demo2p': `Se houver <b>exatamente 2 animais</b> na vizinhança imediata, e existir pelo menos uma árvore e pelo menos um corpo d'água em qualquer uma das duas vizinhanças.`,
+    's5.demo3h4': `3. Nasce água`,
+    's5.demo3p': `Se houver água em alguma célula <b>da fileira superior</b> da vizinhança imediata, e a geração for múltipla de 3 <span class="mono">(g % 3 == 0)</span>.`,
+    's5.h3tree': `Árvores ( 🌲 — 1 )`,
+    's5.treeP': `Sobrevivem se houver <b>pelo menos um corpo d'água</b> na sua vizinhança imediata <i>ou</i> externa. Sem água em nenhum anel, a árvore morre.`,
+    's5.h3animal': `Animais ( 🐑 — 2 )`,
+    's5.animalP': `Sobrevivem se houver <b>pelo menos uma árvore e pelo menos um corpo d'água</b> na sua vizinhança. Faltando qualquer um dos dois, o animal morre.`,
+    's5.h3water': `Água ( 💧 — 3 )`,
+    's5.waterCard': `Nunca muda. Uma vez que uma célula é água, ela permanece como água durante toda a simulação — por isso não precisa de uma demonstração: nada se move.`,
+    's5.callout': `<b>Ordem de avaliação:</b> todas as regras de uma geração são calculadas sobre o estado <i>anterior</i> do mapa, nunca sobre o mapa que você já está modificando. Se você atualizar a matriz "no lugar" enquanto avalia, vai contaminar o resultado com células que já mudaram nesta mesma geração. Sempre calcule o próximo mapa em uma matriz nova.`,
+    's6.eyebrow': `06 · Movimento animal`,
+    's6.h2': `Animais em movimento (gerações pares)`,
+    's6.p': `O parâmetro <code>n</code> define uma única direção global para todos os animais do mapa durante toda a simulação.`,
+    's6.th1': `Valor de n`, 's6.th2': `Direção`,
+    's6.dirRight': `Direita →`, 's6.dirDown': `Baixo ↓`, 's6.dirLeft': `Esquerda ←`, 's6.dirUp': `Cima ↑`,
+    's6.moveEmptyH4': `Célula vazia`,
+    's6.moveEmptyP': `O animal avança para a célula vazia.`,
+    's6.moveTreeH4': `Célula com árvore`,
+    's6.moveTreeP': `O animal avança e <b>consome</b> a árvore.`,
+    's6.moveWaterH4': `Célula com água`,
+    's6.moveWaterP': `O animal <b>não se move</b>.`,
+    's6.moveAnimalH4': `Célula ocupada`,
+    's6.moveAnimalP': `Tenta se mover na direção de outro animal: não se move.`,
+    's6.dirLabel': `n = 1 · direita →`,
+    's6.callout': `<b>Cuidado com a ordem de percurso:</b> se você mover animais enquanto percorre a matriz linha por linha, um animal recém-movido pode ser "movido de novo" se o seu percurso chegar depois à nova posição dele. A solução de referência aplica primeiro todas as regras de sobrevivência/nascimento sobre uma cópia, e só depois resolve os movimentos dessa cópia para um mapa de resultado separado.`,
+    's7.eyebrow': `07 · Parâmetros do programa`,
+    's7.h2': `Entrada pela linha de comando`,
+    's7.p': `O programa é executado passando parâmetros no formato <code>chave=valor</code>, sem espaços ao redor do sinal de igual.`,
+    's7.th1': `Parâmetro`, 's7.th2': `Significado`, 's7.th3': `Valores permitidos`,
+    's7.wMeaning': `Largura do mapa (colunas)`,
+    's7.hMeaning': `Altura do mapa (linhas)`,
+    's7.gMeaning': `Gerações a simular`,
+    's7.gValues': `0–1000 (0 = infinito)`,
+    's7.sMeaning': `Tempo entre gerações (ms)`,
+    's7.nMeaning': `Direção de movimento <i>(opcional)</i>`,
+    's7.mMeaning': `Mapa inicial`,
+    's7.mValues': `texto codificado ou <code>rnd</code>`,
+    's8.eyebrow': `08 · Validações`,
+    's8.h2': `O programa nunca executa com dados inválidos`,
+    's8.p': `Se algum parâmetro não atender aos valores permitidos, o programa não é executado. Em vez disso, informa claramente qual parâmetro falhou e quais nem chegaram a ser especificados.`,
+    's8.callout': `<b>Por que isso importa:</b> essa validação faz parte da nota do projeto, não é um detalhe cosmético. Antes de mexer na lógica do ecossistema, garanta que seu parser de argumentos rejeite e reporte cada parâmetro fora do intervalo permitido, em vez de lançar exceções sem controle ou usar valores padrão silenciosamente.`,
+    's9.eyebrow': `09 · Mapa inicial (m)`,
+    's9.h2': `Duas formas de povoar o ecossistema`,
+    's9.card1h4': `Texto codificado`,
+    's9.card1p': `Linhas separadas por <code>#</code>. Caracteres ausentes em uma linha, ou linhas ausentes no final, são preenchidos com <code>0</code> (vazio).`,
+    's9.card2h4': `Aleatório`,
+    's9.card2p': `Com <code>m=rnd</code> o ecossistema é gerado aleatoriamente, respeitando as dimensões <code>w</code> e <code>h</code>.`,
+    's10.eyebrow': `10 · Experimente você mesmo`,
+    's10.h2': `Simulador interativo`,
+    's10.p': `Configure os mesmos parâmetros que seu programa receberia pelo console e observe como o ecossistema evolui geração a geração. Este motor reproduz fielmente as regras descritas acima — use-o para verificar sua intuição antes de programar, ou para comparar o comportamento da sua própria solução.`,
+    's10.labelW': `w (largura)`, 's10.labelH': `h (altura)`, 's10.labelG': `g (gerações)`,
+    's10.labelS': `s (ms entre ger.)`, 's10.labelN': `n (direção)`, 's10.labelM': `m (mapa)`,
+    's10.optRight': `1 — Direita →`, 's10.optDown': `2 — Baixo ↓`, 's10.optLeft': `3 — Esquerda ←`, 's10.optUp': `4 — Cima ↑`,
+    's10.placeholderM': `rnd ou 0103#2##`,
+    's10.btnRun': `▶ Iniciar`,
+    's10.btnStep': `⏭ Avançar 1 ger.`,
+    's10.btnPause': `⏸ Pausar`,
+    's10.btnReset': `⟲ Reiniciar`,
+    's10.legendEmpty': `Vazio`, 's10.legendTree': `Árvore`, 's10.legendAnimal': `Animal`, 's10.legendWater': `Água`,
+    's10.simLogPlaceholder': `Configure os parâmetros e clique em Iniciar.`,
+    's11.eyebrow': `11 · Perguntas frequentes`,
+    's11.h2': `Dúvidas comuns na implementação`,
+    'faq1.q': `Em que ordem devo avaliar as regras dentro de uma geração?`,
+    'faq1.a': `Primeiro calcule o próximo estado de <i>todas</i> as células (nascimentos, sobrevivência, morte) sempre lendo do mapa da geração anterior, e guarde o resultado em uma matriz nova. Só depois de ter esse mapa completo, se a geração for par, percorra essa nova matriz para resolver os movimentos dos animais em direção a um terceiro mapa de resultado. Misturar as duas etapas em um único percurso é a causa mais comum de comportamentos estranhos.`,
+    'faq2.q': `O que acontece com vizinhos que ficam fora do mapa?`,
+    'faq2.a': `Eles são simplesmente ignorados: não contam como nenhum tipo de elemento nem geram erro. O mapa não é toroidal (não "dá a volta"); bordas e cantos têm, naturalmente, menos vizinhos disponíveis.`,
+    'faq3.q': `A regra de nascimento de água usa a geração antes ou depois de incrementá-la?`,
+    'faq3.a': `Usa o número da geração que você está prestes a produzir (a "próxima"). Se você for imprimir "Gen: 3", a condição de múltiplo de 3 para o nascimento de água é avaliada com esse mesmo número.`,
+    'faq4.q': `Um animal pode "pular em cadeia" várias células em um único passo?`,
+    'faq4.a': `Não. Cada animal se move, no máximo, uma célula por geração de movimento, e somente se a célula de destino estiver vazia ou tiver uma árvore. Se a célula de destino tiver água ou outro animal, ele simplesmente não se move naquela geração.`,
+    'faq5.q': `O que fazer se dois animais "tentam" se mover para a mesma célula vazia?`,
+    'faq5.a': `Isso não deveria acontecer se você percorrer a matriz de forma consistente (por exemplo, linha por linha) e aplicar o movimento de cada animal sobre o mapa de resultado à medida que avança, marcando a célula de destino como ocupada imediatamente. Defina claramente sua ordem de percurso e seja consistente com ela durante todo o projeto.`,
+    'faq6.q': `O parâmetro m sempre precisa ter exatamente w×h caracteres?`,
+    'faq6.a': `Não. Linhas ou caracteres ausentes são preenchidos automaticamente com 0 (vazio). Isso permite mapas de teste curtos como <code>m=01030#201#0003##</code> sem precisar escrever cada célula.`,
+    'footer.text': `Guia interativo criado para acompanhar o Projeto Final de Programação 1 — Jala University. O motor de simulação desta página é uma implementação de referência independente da sua entrega em Java; use-o para comparar o comportamento, não como substituto do seu próprio código.`
+  }
+};
+
+const PAGE_TITLES = {
+  es: `Ecosistema Sostenible — Guía del Proyecto Capstone`,
+  en: `Sustainable Ecosystem — Capstone Project Guide`,
+  pt: `Ecossistema Sustentável — Guia do Projeto Capstone`
+};
+const HTML_LANG_ATTR = { es: 'es', en: 'en', pt: 'pt-BR' };
+
+/* Cachea el contenido original en español de cada elemento data-i18n,
+   así no hace falta duplicar el español dentro de I18N. */
+const ORIGINAL_I18N = new Map();
+document.querySelectorAll('[data-i18n]').forEach(el=>{
+  const key = el.getAttribute('data-i18n');
+  if(!ORIGINAL_I18N.has(key)) ORIGINAL_I18N.set(key, el.innerHTML);
+});
+const ORIGINAL_PLACEHOLDER = new Map();
+document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+  const key = el.getAttribute('data-i18n-placeholder');
+  if(!ORIGINAL_PLACEHOLDER.has(key)) ORIGINAL_PLACEHOLDER.set(key, el.placeholder);
+});
+
+const LANG_CHANGE_CALLBACKS = [];
+function onLangChange(fn){ LANG_CHANGE_CALLBACKS.push(fn); }
+
+function applyLanguage(lang){
+  if(!SUPPORTED_LANGS.includes(lang)) lang='es';
+  currentLang = lang;
+
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    const val = (lang==='es') ? ORIGINAL_I18N.get(key) : (I18N[lang][key] ?? ORIGINAL_I18N.get(key));
+    if(val!==undefined) el.innerHTML = val;
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-placeholder');
+    const val = (lang==='es') ? ORIGINAL_PLACEHOLDER.get(key) : (I18N[lang][key] ?? ORIGINAL_PLACEHOLDER.get(key));
+    if(val!==undefined) el.placeholder = val;
+  });
+
+  document.getElementById('pageTitle').textContent = PAGE_TITLES[lang];
+  document.getElementById('htmlRoot').setAttribute('lang', HTML_LANG_ATTR[lang]);
+
+  document.querySelectorAll('.lang-switch').forEach(group=>{
+    group.querySelectorAll('button').forEach(btn=>{
+      btn.classList.toggle('is-active', btn.getAttribute('data-lang')===lang);
+    });
+  });
+
+  try{ localStorage.setItem('eco-lang', lang); }catch(e){}
+
+  LANG_CHANGE_CALLBACKS.forEach(fn=>{ try{ fn(lang); }catch(e){ console.error(e); } });
+}
+
+function buildLangSwitchers(){
+  const labels = { es:'ES', en:'EN', pt:'PT' };
+  document.querySelectorAll('.lang-switch').forEach(group=>{
+    group.innerHTML='';
+    SUPPORTED_LANGS.forEach(lang=>{
+      const btn=document.createElement('button');
+      btn.type='button';
+      btn.setAttribute('data-lang', lang);
+      btn.textContent = labels[lang];
+      btn.addEventListener('click', ()=> applyLanguage(lang));
+      group.appendChild(btn);
+    });
+  });
+}
+buildLangSwitchers();
+
+(function initLanguage(){
+  let initial = 'es';
+  try{
+    const saved = localStorage.getItem('eco-lang');
+    if(saved && SUPPORTED_LANGS.includes(saved)) initial = saved;
+    else {
+      const browserLang = (navigator.language||'es').toLowerCase();
+      if(browserLang.startsWith('en')) initial='en';
+      else if(browserLang.startsWith('pt')) initial='pt';
+    }
+  }catch(e){}
+  applyLanguage(initial);
+})();
+
+
 /* =========================================================
    MOTOR DE SIMULACIÓN (réplica fiel de las reglas del PDF)
    ========================================================= */
@@ -1177,9 +1663,9 @@ function renderGrid(container, map, cellSize=26){
   renderGrid(grid, map, 20);
   setInterval(()=>{
     gen++;
-    if(gen>40){ gen=0; map=randomMap(ROWS,COLS); label.textContent='Gen: Inicial'; renderGrid(grid,map,20); return; }
+    if(gen>40){ gen=0; map=randomMap(ROWS,COLS); label.textContent=t('genInicial'); renderGrid(grid,map,20); return; }
     map = nextMap(map, ROWS, COLS, gen, 0);
-    label.textContent = 'Gen: '+gen;
+    label.textContent = t('genPrefix')+gen;
     renderGrid(grid, map, 20);
   }, 900);
 })();
@@ -1210,28 +1696,31 @@ function renderGrid(container, map, cellSize=26){
 
     const errors = [];
     let g = Number(gRaw);
-    if(gRaw==='' || Number.isNaN(g) || g<0 || g>1000) errors.push(['generations','Inválido (0–1000)']);
+    if(gRaw==='' || Number.isNaN(g) || g<0 || g>1000) errors.push(['generations',t('valGenInvalid')]);
     let s = Number(sRaw);
-    if(!ALLOWED_S.includes(s)) errors.push(['speed','Inválido (0,250,500,1000,5000)']);
+    if(!ALLOWED_S.includes(s)) errors.push(['speed',t('valSpeedInvalid')]);
     let n = Number(nRaw);
-    if(![1,2,3,4].includes(n)) errors.push(['n','Inválido (1–4)']);
+    if(![1,2,3,4].includes(n)) errors.push(['n',t('valNInvalid')]);
 
     let map=null;
     if(mRaw==='rnd'){ map = randomMap(h,w); }
     else {
       map = parseEncodedMap(mRaw, h, w);
-      if(map===null) errors.push(['map','Carácter inválido en el mapa']);
+      if(map===null) errors.push(['map',t('valMapInvalid')]);
     }
-    if(!ALLOWED_W.includes(w)) errors.push(['width','Inválido']);
-    if(!ALLOWED_H.includes(h)) errors.push(['height','Inválido']);
+    if(!ALLOWED_W.includes(w)) errors.push(['width',t('valWHInvalid')]);
+    if(!ALLOWED_H.includes(h)) errors.push(['height',t('valWHInvalid')]);
 
     return { ok: errors.length===0, errors, w,h,g,s,n,map };
   }
 
+  let lastValidation = null;
+
   function renderValidation(v){
+    lastValidation = v;
     if(v.ok){
       validationOutput.innerHTML = `<div class="validation-box">
-        width = <span class="ok">[${v.w}]</span>  ·  height = <span class="ok">[${v.h}]</span>  ·  generations = <span class="ok">[${v.g===0?'0 (infinito)':v.g}]</span>  ·  speed = <span class="ok">[${v.s}]</span>  ·  n = <span class="ok">[${v.n}]</span>  ·  map = <span class="ok">[OK]</span>
+        width = <span class="ok">[${v.w}]</span>  ·  height = <span class="ok">[${v.h}]</span>  ·  generations = <span class="ok">[${v.g===0?t('valInfinite'):v.g}]</span>  ·  speed = <span class="ok">[${v.s}]</span>  ·  n = <span class="ok">[${v.n}]</span>  ·  map = <span class="ok">[${t('valOk')}]</span>
       </div>`;
     } else {
       const lines = v.errors.map(([k,msg])=>`${k} = <span class="bad">[${msg}]</span>`).join('<br>');
@@ -1248,14 +1737,15 @@ function renderGrid(container, map, cellSize=26){
     const v = validate();
     renderValidation(v);
     if(!v.ok){
-      simGenBadge.textContent = 'Gen: —';
+      simGenBadge.textContent = t('genDash');
       return false;
     }
     state = { map: v.map, rows: v.h, cols: v.w, gen: 0, n: v.n-1, g: v.g, s: v.s };
     simLog.textContent = '';
-    simGenBadge.textContent = 'Gen: Inicial';
+    simLog.removeAttribute('data-i18n');
+    simGenBadge.textContent = t('genInicial');
     renderGrid(simGrid, state.map, Math.max(12, Math.min(26, Math.floor(560/state.cols))));
-    log('Gen: Inicial');
+    log(t('genInicial'));
     return true;
   }
 
@@ -1263,9 +1753,9 @@ function renderGrid(container, map, cellSize=26){
     if(!state) return;
     state.gen++;
     state.map = nextMap(state.map, state.rows, state.cols, state.gen, state.n);
-    simGenBadge.textContent = 'Gen: '+state.gen;
+    simGenBadge.textContent = t('genPrefix')+state.gen;
     renderGrid(simGrid, state.map, Math.max(12, Math.min(26, Math.floor(560/state.cols))));
-    log('Gen: '+state.gen);
+    log(t('genPrefix')+state.gen);
     if(state.g!==0 && state.gen>=state.g) stopTimer();
   }
 
@@ -1301,6 +1791,15 @@ function renderGrid(container, map, cellSize=26){
     startFresh();
   });
 
+  onLangChange(()=>{
+    if(lastValidation) renderValidation(validate());
+    if(state){
+      simGenBadge.textContent = state.gen===0 ? t('genInicial') : t('genPrefix')+state.gen;
+    } else if(lastValidation && !lastValidation.ok){
+      simGenBadge.textContent = t('genDash');
+    }
+  });
+
   // initial render
   startFresh();
 })();
@@ -1318,9 +1817,7 @@ function renderGrid(container, map, cellSize=26){
       ],
       center:[1,1],
       highlights:[[0,0],[2,1]],
-      newValue:1,
-      before:'2+ árboles vecinos',
-      after:'nace un árbol 🌲'
+      newValue:1
     },
     birthAnimal: {
       grid: [
@@ -1332,9 +1829,7 @@ function renderGrid(container, map, cellSize=26){
       ],
       center:[2,2],
       highlights:[[2,1],[2,3],[0,0],[3,4]],
-      newValue:2,
-      before:'2 animales + árbol + agua',
-      after:'nace un animal 🐑'
+      newValue:2
     },
     birthWater: {
       grid: [
@@ -1344,9 +1839,7 @@ function renderGrid(container, map, cellSize=26){
       ],
       center:[1,1],
       highlights:[[0,1]],
-      newValue:3,
-      before:'agua arriba, g % 3 == 0',
-      after:'nace agua 💧'
+      newValue:3
     },
     treeDies: {
       grid: [
@@ -1356,9 +1849,7 @@ function renderGrid(container, map, cellSize=26){
       ],
       center:[1,1],
       highlights:[],
-      newValue:0,
-      before:'sin agua en ningún anillo',
-      after:'el árbol muere'
+      newValue:0
     },
     animalDies: {
       grid: [
@@ -1370,9 +1861,7 @@ function renderGrid(container, map, cellSize=26){
       ],
       center:[2,2],
       highlights:[[1,3]],
-      newValue:0,
-      before:'hay árbol, pero no hay agua',
-      after:'el animal muere'
+      newValue:0
     }
   };
 
@@ -1396,11 +1885,11 @@ function renderGrid(container, map, cellSize=26){
     return cells;
   }
 
-  function runRuleDemo(stage, cfg, captionEl){
+  function runRuleDemo(stage, demoKey, cfg, captionEl){
     const cells = buildDemoGrid(stage, cfg.grid);
     const [cx,cy] = cfg.center;
     cells[cx][cy].classList.add('is-center');
-    captionEl.innerHTML = '<b>Antes:</b> '+cfg.before;
+    captionEl.innerHTML = '<b>'+t('demoBefore')+'</b> '+t('demo.'+demoKey+'.before');
 
     let cancelled=false;
     stage._cancel = ()=>{ cancelled=true; };
@@ -1414,7 +1903,7 @@ function renderGrid(container, map, cellSize=26){
           cells[i][j].textContent = SYMBOLS[cfg.grid[i][j]];
         }
       cells[cx][cy].classList.add('is-center');
-      captionEl.innerHTML = '<b>Antes:</b> '+cfg.before;
+      captionEl.innerHTML = '<b>'+t('demoBefore')+'</b> '+t('demo.'+demoKey+'.before');
 
       // phase 1: highlight contributing neighbors
       cfg.highlights.forEach(([hx,hy])=> cells[hx][hy].classList.add('is-highlight'));
@@ -1424,7 +1913,7 @@ function renderGrid(container, map, cellSize=26){
         cfg.highlights.forEach(([hx,hy])=> cells[hx][hy].classList.remove('is-highlight'));
         // phase 2: flash + transform center
         cells[cx][cy].classList.add('is-flash');
-        captionEl.innerHTML = '<b>Después:</b> '+cfg.after;
+        captionEl.innerHTML = '<b>'+t('demoAfter')+'</b> '+t('demo.'+demoKey+'.after');
         setTimeout(()=>{
           if(cancelled) return;
           cells[cx][cy].className = 'demo-cell t-'+cfg.newValue+' is-center is-flash';
@@ -1437,6 +1926,8 @@ function renderGrid(container, map, cellSize=26){
     cycle();
   }
 
+  const replayButtons = [];
+
   document.querySelectorAll('.rule-demo').forEach(el=>{
     const key = el.getAttribute('data-demo');
     const cfg = RULE_DEMOS[key];
@@ -1446,18 +1937,21 @@ function renderGrid(container, map, cellSize=26){
     caption.className='demo-caption';
     const replay = document.createElement('button');
     replay.className='demo-replay';
-    replay.textContent='⟲ Repetir';
+    replay.textContent=t('demoReplay');
+    replayButtons.push(replay);
     stage.appendChild(caption);
     stage.appendChild(replay);
-    runRuleDemo(stage, cfg, caption);
+    runRuleDemo(stage, key, cfg, caption);
     replay.addEventListener('click', ()=>{
       if(stage._cancel) stage._cancel();
       stage.innerHTML='';
       stage.appendChild(caption);
       stage.appendChild(replay);
-      runRuleDemo(stage, cfg, caption);
+      runRuleDemo(stage, key, cfg, caption);
     });
   });
+
+  onLangChange(()=>{ replayButtons.forEach(btn=> btn.textContent = t('demoReplay')); });
 })();
 
 /* =========================================================
