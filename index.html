@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecosistema Sostenible — Guía del Proyecto Capstone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Identidad Jala University: crema cálido + tinta casi negra,
+       con un único acento gris-azul derivado del isotipo "U". */
+    --bg:#EFEDE5;
+    --bg-panel:#F8F6EF;
+    --bg-panel-dim:#F1EFE6;
+    --ink:#1C1C1A;
+    --ink-soft:#5E5C54;
+    --line:#DAD6C8;
+    --jala-blue:#4D6A80;
+    --jala-blue-soft:#A9BFCB;
+    --forest:#56735B;
+    --forest-soft:#A9BFA9;
+    --water:#4D6A80;
+    --water-soft:#A9BFCB;
+    --soil:#9C7A4E;
+    --accent:#B5762F;
+    --terracotta:#B5762F;
+    --wool:#EFEAD9;
+    --wool-line:#C9BFA0;
+    --error:#9C4423;
+    --ok:#56735B;
+    --radius:10px;
+    --shadow: 0 1px 0 rgba(20,20,18,0.05), 0 10px 28px -18px rgba(20,20,18,0.30);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Source Sans 3',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--jala-blue-soft); color:var(--ink); }
+
+  a{ color:var(--accent); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+
+  h1,h2,h3,h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    color:var(--ink);
+    margin:0 0 0.4em 0;
+    letter-spacing:-0.01em;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--jala-blue);
+    font-weight:700;
+    margin:0 0 0.6em 0;
+  }
+  p{ margin:0 0 1em 0; max-width:760px; }
+  code, .mono{ font-family:'JetBrains Mono', monospace; }
+
+  /* ---------- layout shell ---------- */
+  .shell{
+    display:grid;
+    grid-template-columns: 248px minmax(0,1fr);
+    min-height:100vh;
+  }
+  @media (max-width: 900px){
+    .shell{ grid-template-columns: 1fr; }
+  }
+
+  /* ---------- sidebar ---------- */
+  nav.toc{
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    overflow-y:auto;
+    padding:28px 18px 40px 28px;
+    border-right:1px solid var(--line);
+    background: linear-gradient(180deg, var(--bg-panel), var(--bg));
+  }
+  @media (max-width: 900px){
+    nav.toc{ display:none; }
+  }
+  .toc-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom: 28px;
+  }
+  .toc-brand .mark{
+    width:32px;height:32px;border-radius:8px;
+    background: var(--ink);
+    flex-shrink:0;
+    position:relative;
+  }
+  .toc-brand .mark::after{
+    content:"";
+    position:absolute; left:9px; top:8px; right:9px; bottom:8px;
+    border:2.5px solid var(--bg-panel);
+    border-top:none;
+    border-radius:0 0 7px 7px;
+  }
+  .toc-brand b{ font-family:'Playfair Display',serif; font-size:1.02rem; line-height:1.15; }
+  .toc-brand span{ display:block; font-size:0.72rem; color:var(--ink-soft); }
+
+  nav.toc ol{
+    list-style:none; margin:0; padding:0;
+    counter-reset: section;
+  }
+  nav.toc li{
+    counter-increment: section;
+    margin-bottom:2px;
+  }
+  nav.toc a{
+    display:flex;
+    gap:10px;
+    align-items:baseline;
+    color:var(--ink-soft);
+    font-size:0.86rem;
+    padding:6px 8px;
+    border-radius:7px;
+  }
+  nav.toc a::before{
+    content: counter(section, decimal-leading-zero);
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;
+    color:var(--terracotta);
+    flex-shrink:0;
+  }
+  nav.toc a:hover{ background:var(--bg-panel-dim); color:var(--ink); text-decoration:none; }
+  nav.toc a.active{ background:var(--wool); color:var(--ink); font-weight:600; }
+
+  /* ---------- main ---------- */
+  main{ min-width:0; }
+
+  .mobile-bar{
+    display:none;
+    position:sticky; top:0; z-index:20;
+    background:var(--bg-panel);
+    border-bottom:1px solid var(--line);
+    padding:12px 20px;
+    font-family:'Playfair Display',serif;
+    font-weight:600;
+  }
+  @media (max-width:900px){ .mobile-bar{ display:block; } }
+
+  section{
+    padding: 64px 56px;
+    border-bottom:1px solid var(--line);
+    max-width: 980px;
+  }
+  @media (max-width:700px){
+    section{ padding: 44px 22px; }
+  }
+  section:last-of-type{ border-bottom:none; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding: 72px 56px 56px;
+    display:grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap:48px;
+    align-items:center;
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(circle at 85% 18%, rgba(44,110,142,0.10), transparent 45%),
+      radial-gradient(circle at 8% 85%, rgba(47,82,51,0.10), transparent 40%);
+  }
+  @media (max-width:900px){
+    .hero{ grid-template-columns:1fr; padding:40px 22px; }
+  }
+  .hero h1{
+    font-size:2.6rem;
+    line-height:1.08;
+    margin-bottom:0.5rem;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--forest);
+  }
+  .hero p.lede{
+    font-size:1.05rem;
+    color:var(--ink-soft);
+    max-width:540px;
+  }
+  .hero .cta-row{
+    display:flex; gap:12px; margin-top:24px; flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:11px 18px;
+    border-radius:8px;
+    font-family:'Source Sans 3',sans-serif;
+    font-weight:600;
+    font-size:0.92rem;
+    border:1px solid transparent;
+    cursor:pointer;
+  }
+  .btn-primary{ background:var(--forest); color:#fff; }
+  .btn-primary:hover{ background:#274529; text-decoration:none; }
+  .btn-ghost{ background:transparent; border-color:var(--line); color:var(--ink); }
+  .btn-ghost:hover{ background:var(--bg-panel-dim); text-decoration:none; }
+
+  /* hero mini simulation */
+  .hero-sim{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px;
+    box-shadow:var(--shadow);
+  }
+  .hero-sim .hs-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.74rem;
+    color:var(--ink-soft);
+  }
+  .hero-sim .hs-head b{ color:var(--terracotta); }
+
+  /* ---------- grid rendering ---------- */
+  .grid-wrap{ display:inline-block; }
+  .eco-grid{
+    display:grid;
+    gap:3px;
+    background:var(--wool-line);
+    padding:3px;
+    border-radius:6px;
+  }
+  .cell{
+    width:26px; height:26px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:14px;
+    border-radius:3px;
+    background:#FBF7EE;
+    color:var(--ink-soft);
+  }
+  .cell.t-1{ background:#E4EEDC; }
+  .cell.t-2{ background:var(--wool); }
+  .cell.t-3{ background:#DCEBF1; }
+  .cell.t-0{ color:#C8BFA6; font-size:11px; }
+  .cell.highlight{ outline:2px solid var(--terracotta); outline-offset:-2px; }
+  .cell.dim{ opacity:0.35; }
+
+  /* small illustrative diagrams (static) */
+  .diagram-row{
+    display:flex; align-items:center; gap:22px; flex-wrap:wrap;
+    margin:18px 0 26px;
+  }
+  .diagram-arrow{ font-size:1.4rem; color:var(--terracotta); }
+  .diagram-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.76rem; color:var(--ink-soft);
+  }
+
+  /* ---------- tables ---------- */
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin: 18px 0 28px;
+    font-size:0.92rem;
+    background:var(--bg-panel);
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  th,td{
+    text-align:left;
+    padding:11px 14px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  th{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--ink-soft);
+    background:var(--bg-panel-dim);
+  }
+  tr:last-child td{ border-bottom:none; }
+  td code{
+    background:var(--wool);
+    padding:2px 6px;
+    border-radius:5px;
+    font-size:0.85rem;
+  }
+
+  /* ---------- cards ---------- */
+  .card{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:22px 24px;
+    margin:16px 0;
+  }
+  .card h4{ font-size:1.05rem; margin-bottom:0.5em;}
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+  }
+  @media (max-width:680px){ .card-grid{ grid-template-columns:1fr; } }
+
+  .pill-row{ display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 20px; }
+  .pill{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.76rem;
+    padding:5px 10px;
+    border-radius:999px;
+    background:var(--bg-panel-dim);
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+  }
+
+  .callout{
+    border-left:3px solid var(--accent);
+    background:var(--bg-panel-dim);
+    padding:14px 18px;
+    border-radius:0 8px 8px 0;
+    margin:18px 0;
+    font-size:0.94rem;
+  }
+  .callout b{ color:var(--accent); }
+
+  /* ---------- animated rule demos ---------- */
+  .rule-demo{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:28px;
+    align-items:center;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:22px 24px;
+    margin:16px 0;
+  }
+  @media (max-width:680px){ .rule-demo{ grid-template-columns:1fr; } }
+  .rule-demo-text h4{ font-size:1.05rem; margin-bottom:0.5em; }
+  .rule-demo-stage{
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    justify-self:center;
+  }
+  .demo-replay{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;
+    color:var(--ink-soft);
+    background:transparent;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:4px 12px;
+    cursor:pointer;
+  }
+  .demo-replay:hover{ background:var(--bg-panel-dim); color:var(--ink); }
+  .demo-grid{ display:grid; gap:4px; background:var(--wool-line); padding:4px; border-radius:8px; }
+  .demo-cell{
+    width:38px; height:38px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:19px;
+    border-radius:5px;
+    background:#FBF7EE;
+    color:#C8BFA6;
+    position:relative;
+    transition: background-color 0.35s ease, color 0.35s ease;
+  }
+  .demo-cell.t-1{ background:#E3ECDE; }
+  .demo-cell.t-2{ background:var(--wool); }
+  .demo-cell.t-3{ background:#DEEAF0; }
+  .demo-cell.is-center{ box-shadow: inset 0 0 0 2px var(--ink); }
+  .demo-cell.is-highlight{ animation: pulseRing 0.85s ease-in-out infinite; z-index:1; }
+  .demo-cell.is-flash{ animation: flashCenter 0.55s ease; }
+  @keyframes pulseRing{
+    0%{ box-shadow: 0 0 0 0 rgba(181,118,47,0.55), inset 0 0 0 2px var(--accent); }
+    70%{ box-shadow: 0 0 0 7px rgba(181,118,47,0), inset 0 0 0 2px var(--accent); }
+    100%{ box-shadow: 0 0 0 0 rgba(181,118,47,0), inset 0 0 0 2px var(--accent); }
+  }
+  @keyframes flashCenter{
+    0%{ transform:scale(1); }
+    45%{ transform:scale(1.32); filter:brightness(1.18); }
+    100%{ transform:scale(1); }
+  }
+  .demo-caption{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.74rem;
+    color:var(--ink-soft);
+    min-height:1.4em;
+    text-align:center;
+  }
+  .demo-caption b{ color:var(--accent); }
+
+  /* movement demos — mini tablero 3x3 */
+  .move-demo-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin:18px 0 6px;
+  }
+  @media (max-width:820px){ .move-demo-grid{ grid-template-columns:repeat(2,1fr); } }
+  .move-demo{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:18px;
+    text-align:center;
+  }
+  .move-demo h4{ font-size:0.96rem; margin-bottom:4px; }
+  .move-dir-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    color:var(--jala-blue);
+    margin-bottom:10px;
+    display:block;
+  }
+  .move-stage{
+    position:relative;
+    margin: 0 auto 12px;
+    width: 136px;
+    height: 136px;
+  }
+  .move-board{
+    position:relative;
+    display:grid;
+    grid-template-columns: repeat(3, 40px);
+    grid-template-rows: repeat(3, 40px);
+    gap:4px;
+  }
+  .move-board .demo-cell{ width:40px; height:40px; font-size:18px; }
+  .move-sheep{
+    position:absolute;
+    top:0; left:0;
+    width:40px; height:40px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:19px;
+    background:var(--wool);
+    border-radius:5px;
+    box-shadow: inset 0 0 0 1px var(--wool-line);
+    transition: transform 0.55s cubic-bezier(.4,0,.2,1);
+    z-index:3;
+    will-change: transform;
+  }
+  .move-sheep.is-static{
+    z-index:2;
+    transition:none;
+  }
+  .move-sheep.is-bouncing{
+    transition: transform 0.22s ease-in-out;
+  }
+
+  pre.console{
+    background:#1B2018;
+    color:#E7E2D3;
+    border-radius:10px;
+    padding:18px 20px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.84rem;
+    overflow-x:auto;
+    line-height:1.5;
+  }
+  pre.console .err{ color:#E08D6D; }
+  pre.console .ok{ color:#9BD0A6; }
+  pre.console .cmd{ color:#9BC4D6; }
+
+  /* legend */
+  .legend{
+    display:flex; gap:18px; flex-wrap:wrap; margin:14px 0 22px;
+  }
+  .legend-item{
+    display:flex; align-items:center; gap:8px;
+    font-size:0.88rem;
+    color:var(--ink-soft);
+  }
+  .legend-item .cell{ width:22px; height:22px; font-size:12px; }
+
+  /* ---------- simulator ---------- */
+  .sim-panel{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:26px;
+    box-shadow:var(--shadow);
+  }
+  .sim-controls{
+    display:grid;
+    grid-template-columns: repeat(6, minmax(80px,1fr));
+    gap:12px;
+    margin-bottom:16px;
+  }
+  @media (max-width:820px){ .sim-controls{ grid-template-columns: repeat(2,1fr); } }
+  .field label{
+    display:block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--ink-soft);
+    margin-bottom:5px;
+  }
+  .field select, .field input{
+    width:100%;
+    padding:8px 9px;
+    border-radius:7px;
+    border:1px solid var(--line);
+    background:#fff;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.84rem;
+    color:var(--ink);
+  }
+  .field input::placeholder{ color:#B7AE96; }
+
+  .sim-actions{
+    display:flex; gap:10px; align-items:center; margin-bottom:18px; flex-wrap:wrap;
+  }
+  .gen-badge{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.84rem;
+    background:var(--wool);
+    border:1px solid var(--wool-line);
+    padding:6px 12px;
+    border-radius:999px;
+  }
+  .sim-body{
+    display:grid;
+    grid-template-columns: auto 1fr;
+    gap:28px;
+    align-items:start;
+  }
+  @media (max-width:820px){ .sim-body{ grid-template-columns:1fr; } }
+  .sim-output pre.console{ max-height:300px; overflow-y:auto; margin:0; }
+
+  .validation-box{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.82rem;
+    background:#1B2018;
+    color:#E7E2D3;
+    border-radius:10px;
+    padding:16px 18px;
+    margin-bottom:16px;
+    line-height:1.65;
+  }
+  .validation-box .ok{ color:#9BD0A6; }
+  .validation-box .bad{ color:#E08D6D; }
+
+  details.faq{
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:var(--bg-panel);
+    margin-bottom:10px;
+    padding:14px 18px;
+  }
+  details.faq summary{
+    cursor:pointer;
+    font-weight:600;
+    font-family:'Playfair Display',serif;
+    font-size:1.02rem;
+  }
+  details.faq[open] summary{ color:var(--terracotta); }
+  details.faq p{ margin-top:10px; }
+
+  footer{
+    padding:36px 56px 60px;
+    color:var(--ink-soft);
+    font-size:0.86rem;
+  }
+  @media (max-width:700px){ footer{ padding:30px 22px; } }
+</style>
+</head>
+<body>
+
+<div class="mobile-bar">🌿 Ecosistema Sostenible — Guía Capstone</div>
+
+<div class="shell">
+
+  <nav class="toc" id="toc">
+    <div class="toc-brand">
+      <div class="mark"></div>
+      <div>
+        <b>Ecosistema<br>Sostenible</b>
+        <span>Guía del proyecto Capstone</span>
+      </div>
+    </div>
+    <ol>
+      <li><a href="#overview">Descripción general</a></li>
+      <li><a href="#actores">Actores del ecosistema</a></li>
+      <li><a href="#vecindarios">Vecindarios</a></li>
+      <li><a href="#generaciones">Tipos de generación</a></li>
+      <li><a href="#reglas">Reglas de transformación</a></li>
+      <li><a href="#movimiento">Movimiento animal</a></li>
+      <li><a href="#parametros">Parámetros CLI</a></li>
+      <li><a href="#validaciones">Validaciones</a></li>
+      <li><a href="#mapa">Mapa inicial (m)</a></li>
+      <li><a href="#simulador">Simulador interactivo</a></li>
+      <li><a href="#faq">Preguntas frecuentes</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Jala University — Programación 1</p>
+        <h1>Un ecosistema que <em>vive</em><br>línea por línea de código.</h1>
+        <p class="lede">Esta guía interactiva acompaña el Proyecto Final: un simulador celular en Java donde árboles, animales y agua nacen, sobreviven y se mueven según reglas que tú vas a programar. Aquí puedes ver esas reglas en acción antes de escribir una sola línea.</p>
+        <div class="cta-row">
+          <a href="#simulador" class="btn btn-primary">Abrir el simulador →</a>
+          <a href="#reglas" class="btn btn-ghost">Ver las reglas</a>
+        </div>
+      </div>
+      <div class="hero-sim">
+        <div class="hs-head"><span>vista previa · <b>m=rnd</b></span><span id="heroGenLabel">Gen: Inicial</span></div>
+        <div class="grid-wrap"><div id="heroGrid" class="eco-grid"></div></div>
+      </div>
+    </header>
+
+    <!-- 1. OVERVIEW -->
+    <section id="overview">
+      <p class="eyebrow">01 · Visión general</p>
+      <h2>¿Qué vas a construir?</h2>
+      <p>Un simulador ecológico en Java que represente, mediante un autómata celular, el comportamiento de un ecosistema natural. A través de reglas simples aplicadas celda por celda, el programa modela el <b>nacimiento</b>, la <b>supervivencia</b> y el <b>movimiento</b> de los elementos de un mapa rectangular.</p>
+      <p>No hay inteligencia artificial ni aleatoriedad oculta en la lógica de las reglas (la única aleatoriedad ocurre, opcionalmente, al generar el mapa inicial). Todo el comportamiento del ecosistema emerge de comparar cada celda con sus vecinas, generación tras generación — el mismo principio detrás del Juego de la Vida de Conway, pero con cuatro tipos de celda y reglas ecológicas propias.</p>
+      <div class="callout">
+        <b>Idea clave:</b> tu programa no necesita "saber" qué es un bosque o una manada. Solo necesita aplicar, para cada celda, la regla correcta según su tipo actual y lo que hay alrededor. La complejidad del ecosistema es un efecto, no una instrucción.
+      </div>
+    </section>
+
+    <!-- 2. ACTORES -->
+    <section id="actores">
+      <p class="eyebrow">02 · Actores del ecosistema</p>
+      <h2>Cuatro tipos de celda, cuatro reglas de vida</h2>
+      <p>Cada celda del mapa tiene un valor entero de 0 a 3. Ese valor es, al mismo tiempo, el dato que guardas en tu matriz y el símbolo que imprimes en consola.</p>
+      <table>
+        <thead><tr><th>Símbolo</th><th>Valor</th><th>Elemento</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">·</td><td class="mono">0</td><td><b>Vacío</b></td><td>Suelo sin vida. Puede transformarse en árbol, animal o agua según sus vecinos.</td></tr>
+          <tr><td>🌲</td><td class="mono">1</td><td><b>Árbol</b></td><td>Nace o muere dependiendo de la presencia de agua cercana.</td></tr>
+          <tr><td>🐑</td><td class="mono">2</td><td><b>Animal</b></td><td>Necesita agua y árboles para sobrevivir; se mueve en generaciones pares.</td></tr>
+          <tr><td>💧</td><td class="mono">3</td><td><b>Agua</b></td><td>Fuente de vida. Permanece constante durante toda la simulación.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 3. VECINDARIOS -->
+    <section id="vecindarios">
+      <p class="eyebrow">03 · Vecindarios</p>
+      <h2>¿Quién es "vecino" de quién?</h2>
+      <p>El comportamiento de una celda depende de su entorno inmediato. El simulador define <b>dos anillos concéntricos</b> alrededor de cada celda central, y casi todas las reglas se reducen a contar elementos dentro de uno o ambos anillos.</p>
+
+      <div class="diagram-row">
+        <div>
+          <p class="diagram-label">VECINDARIO INMEDIATO — 8 celdas</p>
+          <div class="grid-wrap"><div class="eco-grid" id="ringInnerDiagram"></div></div>
+        </div>
+        <div style="max-width:320px;">
+          <p style="margin:0 0 8px;">Se usa para:</p>
+          <ul style="margin:0; padding-left:18px; color:var(--ink-soft);">
+            <li>Nacimiento de árboles y animales</li>
+            <li>Supervivencia que requiere contacto directo</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diagram-row">
+        <div>
+          <p class="diagram-label">VECINDARIO EXTERNO — 16 celdas adicionales</p>
+          <div class="grid-wrap"><div class="eco-grid" id="ringOuterDiagram"></div></div>
+        </div>
+        <div style="max-width:320px;">
+          <p style="margin:0 0 8px;">Se usa cuando la regla acepta presencia <i>extendida</i> de un recurso (por ejemplo, agua para que un árbol sobreviva), sin exigir contacto directo.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <b>Tip de implementación:</b> define ambos anillos como listas de desplazamientos <code>(dx, dy)</code> relativos a la celda central. Una función <code>contarEnAnillo(tipo, anillo, x, y)</code> reutilizable te va a ahorrar muchísimo código repetido — y recuerda descartar las coordenadas que caen fuera del mapa.
+      </div>
+    </section>
+
+    <!-- 4. GENERACIONES -->
+    <section id="generaciones">
+      <p class="eyebrow">04 · Tipos de generación</p>
+      <h2>Generaciones impares vs. pares</h2>
+      <p>El simulador alterna entre dos modos según el número de generación. Esta alternancia es la razón por la que, en la práctica, conviene calcular primero <i>todas</i> las transformaciones y recién después mover a los animales — nunca al mismo tiempo.</p>
+      <div class="card-grid">
+        <div class="card">
+          <h4>🌱 Generaciones normales <span class="mono" style="color:var(--ink-soft); font-size:0.8rem;">(impares: 1, 3, 5…)</span></h4>
+          <ul style="padding-left:18px; margin:0;">
+            <li>Los animales <b>no</b> se mueven.</li>
+            <li>Se procesan nacimientos de celdas vacías.</li>
+            <li>Se evalúa supervivencia <b>y</b> reproducción.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>🐾 Generaciones de movimiento <span class="mono" style="color:var(--ink-soft); font-size:0.8rem;">(pares: 2, 4, 6…)</span></h4>
+          <ul style="padding-left:18px; margin:0;">
+            <li>Se procesan nacimientos de celdas vacías.</li>
+            <li>Se evalúa solo supervivencia (sin reproducción).</li>
+            <li>Los animales se mueven según el parámetro <code>n</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. REGLAS -->
+    <section id="reglas">
+      <p class="eyebrow">05 · Reglas de transformación</p>
+      <h2>Lo que le pasa a cada celda, paso a paso</h2>
+
+      <h3 style="margin-top:34px;">Casillas vacías ( · — 0 )</h3>
+      <p>Una celda vacía puede convertirse en árbol, animal o agua. Se evalúan en este orden — y solo se aplica la primera condición que se cumpla. Cada demo resalta primero las celdas vecinas que disparan la regla, y luego transforma la celda central:</p>
+
+      <div class="rule-demo" data-demo="birthTree">
+        <div class="rule-demo-text">
+          <h4>1. Nace un árbol</h4>
+          <p style="margin-bottom:0;">Si hay <b>2 o más árboles</b> en su vecindario inmediato.</p>
+        </div>
+        <div class="rule-demo-stage"></div>
+      </div>
+
+      <div class="rule-demo" data-demo="birthAnimal">
+        <div class="rule-demo-text">
+          <h4>2. Nace un animal <span class="mono" style="font-size:0.78rem; color:var(--ink-soft); display:block; margin-top:4px;">(solo en generaciones impares)</span></h4>
+          <p style="margin-bottom:0;">Si hay <b>exactamente 2 animales</b> en el vecindario inmediato, y existe al menos un árbol y al menos un cuerpo de agua en cualquiera de los dos vecindarios.</p>
+        </div>
+        <div class="rule-demo-stage"></div>
+      </div>
+
+      <div class="rule-demo" data-demo="birthWater">
+        <div class="rule-demo-text">
+          <h4>3. Nace agua</h4>
+          <p style="margin-bottom:0;">Si hay agua en alguna celda <b>de la fila superior</b> del vecindario inmediato, y la generación es múltiplo de 3 <span class="mono">(g % 3 == 0)</span>.</p>
+        </div>
+        <div class="rule-demo-stage"></div>
+      </div>
+
+      <h3 style="margin-top:42px;">Árboles ( 🌲 — 1 )</h3>
+      <div class="rule-demo" data-demo="treeDies">
+        <div class="rule-demo-text">
+          <p style="margin-bottom:0;">Sobreviven si hay <b>al menos un cuerpo de agua</b> en su vecindario inmediato <i>o</i> externo. Sin agua en ningún anillo, el árbol muere.</p>
+        </div>
+        <div class="rule-demo-stage"></div>
+      </div>
+
+      <h3 style="margin-top:42px;">Animales ( 🐑 — 2 )</h3>
+      <div class="rule-demo" data-demo="animalDies">
+        <div class="rule-demo-text">
+          <p style="margin-bottom:0;">Sobreviven si hay <b>al menos un árbol y al menos un cuerpo de agua</b> en su vecindario. Faltando cualquiera de los dos, el animal muere.</p>
+        </div>
+        <div class="rule-demo-stage"></div>
+      </div>
+
+      <h3 style="margin-top:42px;">Agua ( 💧 — 3 )</h3>
+      <div class="card">
+        <p style="margin-bottom:0;">No cambia nunca. Una vez que una celda es agua, permanece como agua durante toda la simulación — por eso no necesita una demo: nada se mueve.</p>
+      </div>
+
+      <div class="callout">
+        <b>Orden de evaluación:</b> todas las reglas de una generación se calculan sobre el estado <i>anterior</i> del mapa, nunca sobre el mapa que ya estás modificando. Si actualizas la matriz "en el lugar" mientras evalúas, vas a contaminar el resultado con celdas que ya cambiaron en esta misma generación. Calcula siempre el mapa siguiente en una matriz nueva.
+      </div>
+    </section>
+
+    <!-- 6. MOVIMIENTO -->
+    <section id="movimiento">
+      <p class="eyebrow">06 · Movimiento animal</p>
+      <h2>Animales en marcha (generaciones pares)</h2>
+      <p>El parámetro <code>n</code> define una única dirección global para todos los animales del mapa durante toda la simulación.</p>
+      <table>
+        <thead><tr><th>Valor de n</th><th>Dirección</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">1</td><td>Derecha →</td></tr>
+          <tr><td class="mono">2</td><td>Abajo ↓</td></tr>
+          <tr><td class="mono">3</td><td>Izquierda ←</td></tr>
+          <tr><td class="mono">4</td><td>Arriba ↑</td></tr>
+        </tbody>
+      </table>
+
+      <div class="move-demo-grid">
+        <div class="move-demo" data-move="toEmpty">
+          <h4>Celda vacía</h4>
+          <span class="move-dir-label">n = 1 · derecha →</span>
+          <div class="rule-demo-stage"></div>
+          <p style="margin-bottom:0;">El animal avanza hacia la celda vacía.</p>
+        </div>
+        <div class="move-demo" data-move="toTree">
+          <h4>Celda con árbol</h4>
+          <span class="move-dir-label">n = 1 · derecha →</span>
+          <div class="rule-demo-stage"></div>
+          <p style="margin-bottom:0;">El animal avanza y <b>consume</b> el árbol.</p>
+        </div>
+        <div class="move-demo" data-move="toWater">
+          <h4>Celda con agua</h4>
+          <span class="move-dir-label">n = 1 · derecha →</span>
+          <div class="rule-demo-stage"></div>
+          <p style="margin-bottom:0;">El animal <b>no se mueve</b>.</p>
+        </div>
+        <div class="move-demo" data-move="toAnimal">
+          <h4>Celda ocupada</h4>
+          <span class="move-dir-label">n = 1 · derecha →</span>
+          <div class="rule-demo-stage"></div>
+          <p style="margin-bottom:0;">Intenta moverse hacia otro animal: no se mueve.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <b>Cuidado con el orden de recorrido:</b> si mueves animales mientras recorres la matriz fila por fila, un animal recién movido puede ser "vuelto a mover" si tu recorrido llega después a su nueva posición. La solución de referencia aplica primero todas las reglas de supervivencia/nacimiento sobre una copia, y luego resuelve los movimientos sobre esa copia hacia un mapa de resultado separado.
+      </div>
+    </section>
+
+    <!-- 7. PARAMETROS -->
+    <section id="parametros">
+      <p class="eyebrow">07 · Parámetros del programa</p>
+      <h2>Entrada desde la línea de comandos</h2>
+      <p>El programa se ejecuta pasando parámetros con el formato <code>clave=valor</code>, sin espacios alrededor del signo igual.</p>
+      <table>
+        <thead><tr><th>Parámetro</th><th>Significado</th><th>Valores permitidos</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">w</td><td>Ancho del mapa (columnas)</td><td class="mono">5, 10, 15, 20, 40, 80</td></tr>
+          <tr><td class="mono">h</td><td>Alto del mapa (filas)</td><td class="mono">5, 10, 15, 20, 40</td></tr>
+          <tr><td class="mono">g</td><td>Generaciones a simular</td><td class="mono">0–1000 (0 = infinito)</td></tr>
+          <tr><td class="mono">s</td><td>Tiempo entre generaciones (ms)</td><td class="mono">0, 250, 500, 1000, 5000</td></tr>
+          <tr><td class="mono">n</td><td>Dirección de movimiento <i>(opcional)</i></td><td class="mono">1, 2, 3, 4</td></tr>
+          <tr><td class="mono">m</td><td>Mapa inicial</td><td class="mono">texto codificado o <code>rnd</code></td></tr>
+        </tbody>
+      </table>
+      <pre class="console"><span class="cmd">java Capstone w=ANCHO h=ALTO g=GENERACIONES s=TIEMPO n=DIRECCIÓN m=MAPA</span>
+
+<span class="cmd">java Capstone w=10 h=10 g=20 s=500 n=2 m=rnd</span>
+<span class="cmd">java Capstone w=5 h=5 g=20 s=500 n=1 m=01030#201#0003##</span></pre>
+    </section>
+
+    <!-- 8. VALIDACIONES -->
+    <section id="validaciones">
+      <p class="eyebrow">08 · Validaciones</p>
+      <h2>El programa nunca corre con datos inválidos</h2>
+      <p>Si algún parámetro no cumple sus valores permitidos, el programa no se ejecuta. En su lugar, informa con claridad cuál parámetro falló y cuáles ni siquiera llegaron a especificarse.</p>
+      <pre class="console"><span class="cmd">java capstone w=5 h=12 n=1</span>
+
+width = [5]
+height = <span class="err">[Invalido]</span>
+generations = <span class="err">[No presente]</span>
+speed = <span class="err">[No Presente]</span>
+map = <span class="err">[No Presente]</span>
+n=1</pre>
+      <div class="callout">
+        <b>Por qué importa:</b> esta validación es parte de la nota del proyecto, no un detalle cosmético. Antes de tocar la lógica del ecosistema, asegúrate de que tu parser de argumentos rechace y reporte cada parámetro fuera de rango, en lugar de lanzar excepciones sin control o usar valores por defecto silenciosos.
+      </div>
+    </section>
+
+    <!-- 9. MAPA -->
+    <section id="mapa">
+      <p class="eyebrow">09 · Mapa inicial (m)</p>
+      <h2>Dos formas de poblar el ecosistema</h2>
+      <div class="card-grid">
+        <div class="card">
+          <h4>Texto codificado</h4>
+          <p>Filas separadas por <code>#</code>. Los caracteres faltantes en una fila, o filas faltantes al final, se completan con <code>0</code> (vacío).</p>
+          <p class="mono" style="margin-bottom:6px;">m=01030#201#0003##</p>
+          <div class="grid-wrap"><div class="eco-grid" id="mapEncodedExample"></div></div>
+        </div>
+        <div class="card">
+          <h4>Aleatorio</h4>
+          <p>Con <code>m=rnd</code> el ecosistema se genera al azar, respetando las dimensiones <code>w</code> y <code>h</code>.</p>
+          <div class="grid-wrap"><div class="eco-grid" id="mapRandomExample"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. SIMULADOR -->
+    <section id="simulador">
+      <p class="eyebrow">10 · Pruébalo tú mismo</p>
+      <h2>Simulador interactivo</h2>
+      <p>Configura los mismos parámetros que recibiría tu programa por consola y observa cómo evoluciona el ecosistema generación a generación. Este motor reproduce fielmente las reglas descritas arriba — úsalo para verificar tu intuición antes de programar, o para comparar el comportamiento de tu propia solución.</p>
+
+      <div class="sim-panel">
+        <div class="sim-controls">
+          <div class="field">
+            <label for="in-w">w (ancho)</label>
+            <select id="in-w">
+              <option>5</option><option selected>10</option><option>15</option><option>20</option><option>40</option><option>80</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="in-h">h (alto)</label>
+            <select id="in-h">
+              <option>5</option><option selected>10</option><option>15</option><option>20</option><option>40</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="in-g">g (generaciones)</label>
+            <input id="in-g" type="number" min="0" max="1000" value="20">
+          </div>
+          <div class="field">
+            <label for="in-s">s (ms entre gen.)</label>
+            <select id="in-s">
+              <option>0</option><option selected>500</option><option>250</option><option>1000</option><option>5000</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="in-n">n (dirección)</label>
+            <select id="in-n">
+              <option value="1">1 — Derecha →</option>
+              <option value="2">2 — Abajo ↓</option>
+              <option value="3">3 — Izquierda ←</option>
+              <option value="4">4 — Arriba ↑</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="in-m">m (mapa)</label>
+            <input id="in-m" type="text" value="rnd" placeholder="rnd o 0103#2##">
+          </div>
+        </div>
+
+        <div id="validationOutput"></div>
+
+        <div class="sim-actions">
+          <button class="btn btn-primary" id="btnRun">▶ Iniciar</button>
+          <button class="btn btn-ghost" id="btnStep">⏭ Avanzar 1 gen.</button>
+          <button class="btn btn-ghost" id="btnPause">⏸ Pausar</button>
+          <button class="btn btn-ghost" id="btnReset">⟲ Reiniciar</button>
+          <span class="gen-badge" id="simGenBadge">Gen: —</span>
+        </div>
+
+        <div class="sim-body">
+          <div class="grid-wrap"><div id="simGrid" class="eco-grid"></div></div>
+          <div class="sim-output">
+            <div class="legend">
+              <div class="legend-item"><div class="cell t-0">·</div> Vacío</div>
+              <div class="legend-item"><div class="cell t-1">🌲</div> Árbol</div>
+              <div class="legend-item"><div class="cell t-2">🐑</div> Animal</div>
+              <div class="legend-item"><div class="cell t-3">💧</div> Agua</div>
+            </div>
+            <pre class="console" id="simLog">Configura los parámetros y presiona Iniciar.</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. FAQ -->
+    <section id="faq">
+      <p class="eyebrow">11 · Preguntas frecuentes</p>
+      <h2>Dudas típicas al implementar</h2>
+
+      <details class="faq">
+        <summary>¿En qué orden debo evaluar las reglas dentro de una generación?</summary>
+        <p>Primero calcula el estado siguiente de <i>todas</i> las celdas (nacimientos, supervivencia, muerte) leyendo siempre del mapa de la generación anterior, y guarda el resultado en una matriz nueva. Solo después de tener ese mapa completo, si la generación es par, recorre esa matriz nueva para resolver los movimientos de animales hacia un tercer mapa de resultado. Mezclar ambos pasos en un solo recorrido es la causa más común de comportamientos extraños.</p>
+      </details>
+
+      <details class="faq">
+        <summary>¿Qué pasa con los vecinos que caen fuera del mapa?</summary>
+        <p>Simplemente se ignoran: no cuentan como ningún tipo de elemento ni generan error. El mapa no es toroidal (no "da la vuelta"); los bordes y esquinas tienen, naturalmente, menos vecinos disponibles.</p>
+      </details>
+
+      <details class="faq">
+        <summary>¿La regla de nacimiento de agua usa la generación antes o después de incrementarla?</summary>
+        <p>Usa el número de la generación que estás a punto de producir (la "siguiente"). Si vas a imprimir "Gen: 3", la condición de múltiplo de 3 para el nacimiento de agua se evalúa con ese mismo número.</p>
+      </details>
+
+      <details class="faq">
+        <summary>¿Puede un animal "saltarse" en cadena varias celdas en un mismo paso?</summary>
+        <p>No. Cada animal se mueve, como máximo, una celda por generación de movimiento, y solo si la celda destino está vacía o tiene un árbol. Si la celda destino tiene agua u otro animal, simplemente no se mueve esa generación.</p>
+      </details>
+
+      <details class="faq">
+        <summary>¿Qué hago si dos animales "intentan" moverse a la misma celda vacía?</summary>
+        <p>Esto no debería ocurrir si recorres la matriz de forma consistente (por ejemplo, fila por fila) y aplicas el movimiento de cada animal contra el mapa de resultado a medida que avanzas, marcando la celda destino como ocupada inmediatamente. Define con claridad tu orden de recorrido y sé consistente con él durante todo el proyecto.</p>
+      </details>
+
+      <details class="faq">
+        <summary>¿El parámetro m siempre debe tener exactamente w×h caracteres?</summary>
+        <p>No. Las filas o caracteres faltantes se completan con 0 (vacío) automáticamente. Esto permite mapas de prueba cortos como <code>m=01030#201#0003##</code> sin tener que escribir cada celda.</p>
+      </details>
+    </section>
+
+    <footer>
+      <p>Guía interactiva creada para acompañar el Proyecto Final de Programación 1 — Jala University. El motor de simulación de esta página es una implementación de referencia independiente de tu entrega en Java; úsalo para comparar comportamiento, no como sustituto de tu propio código.</p>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+/* =========================================================
+   MOTOR DE SIMULACIÓN (réplica fiel de las reglas del PDF)
+   ========================================================= */
+const EMPTY=0, TREE=1, ANIMAL=2, WATER=3;
+
+const INNER_RING = [
+  [-1,-1],[-1,0],[-1,1],
+  [0,-1],        [0,1],
+  [1,-1],[1,0],[1,1]
+];
+const OUTER_RING = [
+  [-2,-2],[-2,-1],[-2,0],[-2,1],[-2,2],
+  [-1,-2],                      [-1,2],
+  [0,-2],                       [0,2],
+  [1,-2],                       [1,2],
+  [2,-2],[2,-1],[2,0],[2,1],[2,2]
+];
+const MOVE_DIRS = [ [0,1],[1,0],[0,-1],[-1,0] ]; // n=1..4 -> idx 0..3
+
+function inBounds(map,x,y){ return x>=0 && y>=0 && x<map.length && y<map[0].length; }
+
+function countInRing(map,id,x,y,ring){
+  let c=0;
+  for(const [dx,dy] of ring){
+    const nx=x+dx, ny=y+dy;
+    if(!inBounds(map,nx,ny)) continue;
+    if(map[nx][ny]===id) c++;
+  }
+  return c;
+}
+function countInAllRings(map,id,x,y){
+  return countInRing(map,id,x,y,INNER_RING) + countInRing(map,id,x,y,OUTER_RING);
+}
+function countAboveInnerRingWater(map,x,y){
+  let c=0;
+  const upper=[[-1,-1],[-1,0],[-1,1]];
+  for(const [dx,dy] of upper){
+    const nx=x+dx, ny=y+dy;
+    if(!inBounds(map,nx,ny)) continue;
+    if(map[nx][ny]===WATER) c++;
+  }
+  return c;
+}
+function isNestingGeneration(gen){ return gen % 2 === 1; }
+
+function evaluateRulesForCell(map,x,y,gen){
+  const current = map[x][y];
+  const nesting = isNestingGeneration(gen);
+  if(current===EMPTY){
+    if(countInRing(map,TREE,x,y,INNER_RING) >= 2) return TREE;
+    if(countInRing(map,ANIMAL,x,y,INNER_RING)===2 &&
+       countInAllRings(map,TREE,x,y) > 0 &&
+       countInAllRings(map,WATER,x,y) > 0 &&
+       nesting) return ANIMAL;
+    if(gen % 3 === 0 && countAboveInnerRingWater(map,x,y) >= 1) return WATER;
+    return EMPTY;
+  }
+  if(current===TREE){
+    return countInAllRings(map,WATER,x,y) > 0 ? TREE : EMPTY;
+  }
+  if(current===ANIMAL){
+    const hasTree = countInAllRings(map,TREE,x,y) > 0;
+    const hasWater = countInAllRings(map,WATER,x,y) > 0;
+    return (hasTree && hasWater) ? ANIMAL : EMPTY;
+  }
+  return WATER;
+}
+
+function copyMap(m){ return m.map(row=>row.slice()); }
+
+function moveAnimal(x,y,srcMap,resultMap,dirIdx){
+  const [dx,dy] = MOVE_DIRS[dirIdx];
+  const nx=x+dx, ny=y+dy;
+  if(!inBounds(srcMap,nx,ny)) return;
+  if(srcMap[nx][ny]===EMPTY || srcMap[nx][ny]===TREE){
+    resultMap[nx][ny]=ANIMAL;
+    resultMap[x][y]=EMPTY;
+  }
+}
+
+function nextMap(currentMap, rows, cols, currentGen, dirIdx){
+  const nextGenMap = [];
+  for(let i=0;i<rows;i++){
+    const row=[];
+    for(let j=0;j<cols;j++) row.push(evaluateRulesForCell(currentMap,i,j,currentGen));
+    nextGenMap.push(row);
+  }
+  const nesting = isNestingGeneration(currentGen);
+  const resultMap = copyMap(nextGenMap);
+  if(!nesting){
+    for(let i=0;i<rows;i++){
+      for(let j=0;j<cols;j++){
+        if(nextGenMap[i][j]===ANIMAL) moveAnimal(i,j,nextGenMap,resultMap,dirIdx);
+      }
+    }
+  }
+  return resultMap;
+}
+
+function parseEncodedMap(str, rows, cols){
+  const map = Array.from({length:rows},()=>Array(cols).fill(0));
+  const lines = str.split('#');
+  for(let i=0;i<rows;i++){
+    const line = lines[i] || '';
+    for(let j=0;j<cols;j++){
+      const ch = line[j];
+      if(ch===undefined) break;
+      if(ch>='0' && ch<='9') map[i][j]=Number(ch);
+      else return null;
+    }
+  }
+  return map;
+}
+function randomMap(rows,cols){
+  return Array.from({length:rows},()=> Array.from({length:cols},()=> Math.floor(Math.random()*4)));
+}
+
+/* =========================================================
+   RENDER HELPERS
+   ========================================================= */
+const SYMBOLS = { 0:'·', 1:'🌲', 2:'🐑', 3:'💧' };
+
+function renderGrid(container, map, cellSize=26){
+  const cols = map[0].length;
+  container.style.gridTemplateColumns = `repeat(${cols}, ${cellSize}px)`;
+  container.innerHTML='';
+  for(let i=0;i<map.length;i++){
+    for(let j=0;j<cols;j++){
+      const d=document.createElement('div');
+      d.className = `cell t-${map[i][j]}`;
+      d.style.width = cellSize+'px';
+      d.style.height = cellSize+'px';
+      d.textContent = SYMBOLS[map[i][j]];
+      container.appendChild(d);
+    }
+  }
+}
+
+/* ---------- static diagrams ---------- */
+(function(){
+  const innerDemo = Array.from({length:3},()=>Array(3).fill(0));
+  innerDemo[1][1]=2; // center marker just for visual, render letters instead
+  const ring = document.getElementById('ringInnerDiagram');
+  ring.style.gridTemplateColumns = 'repeat(3, 30px)';
+  const letters = ['A','B','C','D','X','E','F','G','H'];
+  letters.forEach((L,idx)=>{
+    const d=document.createElement('div');
+    d.className='cell t-0';
+    d.style.width='30px'; d.style.height='30px'; d.style.fontFamily="'JetBrains Mono',monospace"; d.style.fontWeight='700'; d.style.color = L==='X' ? '#fff' : 'var(--ink-soft)';
+    if(L==='X'){ d.style.background='var(--terracotta)'; }
+    else { d.style.background='#E4EEDC'; }
+    d.textContent=L;
+    ring.appendChild(d);
+  });
+
+  const outerLetters = [
+    'A','B','C','D','E',
+    'F','','','','G',
+    'H','','X','','I',
+    'J','','','','K',
+    'L','M','N','O','P'
+  ];
+  const outerEl = document.getElementById('ringOuterDiagram');
+  outerEl.style.gridTemplateColumns = 'repeat(5, 30px)';
+  outerLetters.forEach(L=>{
+    const d=document.createElement('div');
+    d.style.width='30px'; d.style.height='30px';
+    d.style.display='flex'; d.style.alignItems='center'; d.style.justifyContent='center';
+    d.style.fontFamily="'JetBrains Mono',monospace"; d.style.fontWeight='700';
+    d.style.borderRadius='3px';
+    if(L==='X'){ d.style.background='var(--terracotta)'; d.style.color='#fff'; }
+    else if(L===''){ d.style.background='#FBF7EE'; }
+    else { d.style.background='#E4EEDC'; d.style.color='var(--ink-soft)'; }
+    d.textContent=L;
+    outerEl.appendChild(d);
+  });
+
+  renderGrid(document.getElementById('mapEncodedExample'), parseEncodedMap('01030#201#0003##',4,5), 24);
+  renderGrid(document.getElementById('mapRandomExample'), randomMap(4,5), 24);
+})();
+
+/* ---------- hero ambient mini-sim (loops forever, decorative) ---------- */
+(function(){
+  const ROWS=8, COLS=10;
+  let gen=0;
+  let map = randomMap(ROWS,COLS);
+  const grid = document.getElementById('heroGrid');
+  const label = document.getElementById('heroGenLabel');
+  renderGrid(grid, map, 20);
+  setInterval(()=>{
+    gen++;
+    if(gen>40){ gen=0; map=randomMap(ROWS,COLS); label.textContent='Gen: Inicial'; renderGrid(grid,map,20); return; }
+    map = nextMap(map, ROWS, COLS, gen, 0);
+    label.textContent = 'Gen: '+gen;
+    renderGrid(grid, map, 20);
+  }, 900);
+})();
+
+/* =========================================================
+   SIMULADOR INTERACTIVO (con validación estilo CLI)
+   ========================================================= */
+(function(){
+  const $ = id=>document.getElementById(id);
+  const inW=$('in-w'), inH=$('in-h'), inG=$('in-g'), inS=$('in-s'), inN=$('in-n'), inM=$('in-m');
+  const validationOutput = $('validationOutput');
+  const simGrid = $('simGrid');
+  const simLog = $('simLog');
+  const simGenBadge = $('simGenBadge');
+
+  const ALLOWED_W=[5,10,15,20,40,80];
+  const ALLOWED_H=[5,10,15,20,40];
+  const ALLOWED_S=[0,250,500,1000,5000];
+
+  let state = null; // {map, rows, cols, gen, n, g, s}
+  let timer = null;
+
+  function validate(){
+    const w = Number(inW.value), h = Number(inH.value);
+    const gRaw = inG.value.trim(), sRaw = inS.value;
+    const nRaw = inN.value;
+    const mRaw = inM.value.trim();
+
+    const errors = [];
+    let g = Number(gRaw);
+    if(gRaw==='' || Number.isNaN(g) || g<0 || g>1000) errors.push(['generations','Inválido (0–1000)']);
+    let s = Number(sRaw);
+    if(!ALLOWED_S.includes(s)) errors.push(['speed','Inválido (0,250,500,1000,5000)']);
+    let n = Number(nRaw);
+    if(![1,2,3,4].includes(n)) errors.push(['n','Inválido (1–4)']);
+
+    let map=null;
+    if(mRaw==='rnd'){ map = randomMap(h,w); }
+    else {
+      map = parseEncodedMap(mRaw, h, w);
+      if(map===null) errors.push(['map','Carácter inválido en el mapa']);
+    }
+    if(!ALLOWED_W.includes(w)) errors.push(['width','Inválido']);
+    if(!ALLOWED_H.includes(h)) errors.push(['height','Inválido']);
+
+    return { ok: errors.length===0, errors, w,h,g,s,n,map };
+  }
+
+  function renderValidation(v){
+    if(v.ok){
+      validationOutput.innerHTML = `<div class="validation-box">
+        width = <span class="ok">[${v.w}]</span>  ·  height = <span class="ok">[${v.h}]</span>  ·  generations = <span class="ok">[${v.g===0?'0 (infinito)':v.g}]</span>  ·  speed = <span class="ok">[${v.s}]</span>  ·  n = <span class="ok">[${v.n}]</span>  ·  map = <span class="ok">[OK]</span>
+      </div>`;
+    } else {
+      const lines = v.errors.map(([k,msg])=>`${k} = <span class="bad">[${msg}]</span>`).join('<br>');
+      validationOutput.innerHTML = `<div class="validation-box">${lines}</div>`;
+    }
+  }
+
+  function log(line){
+    simLog.textContent += (simLog.textContent.endsWith('\n') || simLog.textContent==='' ? '' : '\n') + line + '\n';
+    simLog.scrollTop = simLog.scrollHeight;
+  }
+
+  function startFresh(){
+    const v = validate();
+    renderValidation(v);
+    if(!v.ok){
+      simGenBadge.textContent = 'Gen: —';
+      return false;
+    }
+    state = { map: v.map, rows: v.h, cols: v.w, gen: 0, n: v.n-1, g: v.g, s: v.s };
+    simLog.textContent = '';
+    simGenBadge.textContent = 'Gen: Inicial';
+    renderGrid(simGrid, state.map, Math.max(12, Math.min(26, Math.floor(560/state.cols))));
+    log('Gen: Inicial');
+    return true;
+  }
+
+  function stepOnce(){
+    if(!state) return;
+    state.gen++;
+    state.map = nextMap(state.map, state.rows, state.cols, state.gen, state.n);
+    simGenBadge.textContent = 'Gen: '+state.gen;
+    renderGrid(simGrid, state.map, Math.max(12, Math.min(26, Math.floor(560/state.cols))));
+    log('Gen: '+state.gen);
+    if(state.g!==0 && state.gen>=state.g) stopTimer();
+  }
+
+  function stopTimer(){ if(timer){ clearInterval(timer); timer=null; } }
+
+  $('btnRun').addEventListener('click', ()=>{
+    stopTimer();
+    if(!state || state.gen===0){ if(!startFresh()) return; }
+    if(state.s===0){
+      // run synchronously in quick bursts to avoid freezing on huge g
+      let count=0;
+      const limit = state.g===0 ? 500 : state.g - state.gen;
+      while(count<limit){ stepOnce(); count++; if(state.g!==0 && state.gen>=state.g) break; }
+      return;
+    }
+    timer = setInterval(()=>{
+      stepOnce();
+      if(state.g!==0 && state.gen>=state.g) stopTimer();
+    }, state.s);
+  });
+
+  $('btnStep').addEventListener('click', ()=>{
+    stopTimer();
+    if(!state){ if(!startFresh()) return; }
+    stepOnce();
+  });
+
+  $('btnPause').addEventListener('click', stopTimer);
+
+  $('btnReset').addEventListener('click', ()=>{
+    stopTimer();
+    state=null;
+    startFresh();
+  });
+
+  // initial render
+  startFresh();
+})();
+
+/* =========================================================
+   DEMOS ANIMADAS DE REGLAS (nacimiento / muerte)
+   ========================================================= */
+(function(){
+  const RULE_DEMOS = {
+    birthTree: {
+      grid: [
+        [1,0,0],
+        [0,0,0],
+        [0,1,0]
+      ],
+      center:[1,1],
+      highlights:[[0,0],[2,1]],
+      newValue:1,
+      before:'2+ árboles vecinos',
+      after:'nace un árbol 🌲'
+    },
+    birthAnimal: {
+      grid: [
+        [1,0,0,0,1],
+        [0,0,0,0,0],
+        [0,2,0,2,0],
+        [0,0,0,0,3],
+        [1,0,0,3,3]
+      ],
+      center:[2,2],
+      highlights:[[2,1],[2,3],[0,0],[3,4]],
+      newValue:2,
+      before:'2 animales + árbol + agua',
+      after:'nace un animal 🐑'
+    },
+    birthWater: {
+      grid: [
+        [0,3,0],
+        [0,0,0],
+        [0,0,0]
+      ],
+      center:[1,1],
+      highlights:[[0,1]],
+      newValue:3,
+      before:'agua arriba, g % 3 == 0',
+      after:'nace agua 💧'
+    },
+    treeDies: {
+      grid: [
+        [0,0,0],
+        [0,1,0],
+        [0,0,0]
+      ],
+      center:[1,1],
+      highlights:[],
+      newValue:0,
+      before:'sin agua en ningún anillo',
+      after:'el árbol muere'
+    },
+    animalDies: {
+      grid: [
+        [0,0,0,0,0],
+        [0,0,0,1,0],
+        [0,0,2,0,0],
+        [0,0,0,0,0],
+        [0,0,0,0,0]
+      ],
+      center:[2,2],
+      highlights:[[1,3]],
+      newValue:0,
+      before:'hay árbol, pero no hay agua',
+      after:'el animal muere'
+    }
+  };
+
+  function buildDemoGrid(stage, gridData){
+    const cols = gridData[0].length;
+    const wrap = document.createElement('div');
+    wrap.className='demo-grid';
+    wrap.style.gridTemplateColumns = `repeat(${cols}, 38px)`;
+    const cells = [];
+    for(let i=0;i<gridData.length;i++){
+      cells.push([]);
+      for(let j=0;j<cols;j++){
+        const c=document.createElement('div');
+        c.className = 'demo-cell t-'+gridData[i][j];
+        c.textContent = SYMBOLS[gridData[i][j]];
+        wrap.appendChild(c);
+        cells[i].push(c);
+      }
+    }
+    stage.appendChild(wrap);
+    return cells;
+  }
+
+  function runRuleDemo(stage, cfg, captionEl){
+    const cells = buildDemoGrid(stage, cfg.grid);
+    const [cx,cy] = cfg.center;
+    cells[cx][cy].classList.add('is-center');
+    captionEl.innerHTML = '<b>Antes:</b> '+cfg.before;
+
+    let cancelled=false;
+    stage._cancel = ()=>{ cancelled=true; };
+
+    function cycle(){
+      if(cancelled) return;
+      // reset to original
+      for(let i=0;i<cfg.grid.length;i++)
+        for(let j=0;j<cfg.grid[0].length;j++){
+          cells[i][j].className = 'demo-cell t-'+cfg.grid[i][j];
+          cells[i][j].textContent = SYMBOLS[cfg.grid[i][j]];
+        }
+      cells[cx][cy].classList.add('is-center');
+      captionEl.innerHTML = '<b>Antes:</b> '+cfg.before;
+
+      // phase 1: highlight contributing neighbors
+      cfg.highlights.forEach(([hx,hy])=> cells[hx][hy].classList.add('is-highlight'));
+
+      setTimeout(()=>{
+        if(cancelled) return;
+        cfg.highlights.forEach(([hx,hy])=> cells[hx][hy].classList.remove('is-highlight'));
+        // phase 2: flash + transform center
+        cells[cx][cy].classList.add('is-flash');
+        captionEl.innerHTML = '<b>Después:</b> '+cfg.after;
+        setTimeout(()=>{
+          if(cancelled) return;
+          cells[cx][cy].className = 'demo-cell t-'+cfg.newValue+' is-center is-flash';
+          cells[cx][cy].textContent = SYMBOLS[cfg.newValue];
+        }, 180);
+      }, 1300);
+
+      setTimeout(()=>{ if(!cancelled) cycle(); }, 3400);
+    }
+    cycle();
+  }
+
+  document.querySelectorAll('.rule-demo').forEach(el=>{
+    const key = el.getAttribute('data-demo');
+    const cfg = RULE_DEMOS[key];
+    if(!cfg) return;
+    const stage = el.querySelector('.rule-demo-stage');
+    const caption = document.createElement('div');
+    caption.className='demo-caption';
+    const replay = document.createElement('button');
+    replay.className='demo-replay';
+    replay.textContent='⟲ Repetir';
+    stage.appendChild(caption);
+    stage.appendChild(replay);
+    runRuleDemo(stage, cfg, caption);
+    replay.addEventListener('click', ()=>{
+      if(stage._cancel) stage._cancel();
+      stage.innerHTML='';
+      stage.appendChild(caption);
+      stage.appendChild(replay);
+      runRuleDemo(stage, cfg, caption);
+    });
+  });
+})();
+
+/* =========================================================
+   DEMOS DE MOVIMIENTO ANIMAL — tablero 3x3
+   ========================================================= */
+(function(){
+  const STEP = 44; // 40px celda + 4px gap
+  const START = [1,1];
+  const TARGET = [1,2];
+
+  const MOVE_DEMOS = {
+    toEmpty: {
+      bg: [
+        [3,0,0],
+        [0,0,0],
+        [0,1,0]
+      ],
+      outcome:'move'
+    },
+    toTree: {
+      bg: [
+        [0,0,3],
+        [0,0,1],
+        [3,0,0]
+      ],
+      outcome:'consume'
+    },
+    toWater: {
+      bg: [
+        [0,1,0],
+        [0,0,3],
+        [0,0,1]
+      ],
+      outcome:'blocked'
+    },
+    toAnimal: {
+      bg: [
+        [0,0,1],
+        [0,0,0],
+        [1,0,3]
+      ],
+      outcome:'blocked',
+      staticAnimal:true
+    }
+  };
+
+  function pos(r,c){ return { x: c*STEP, y: r*STEP }; }
+
+  function buildBoard(stage, cfg){
+    stage.innerHTML='';
+    const board = document.createElement('div');
+    board.className='move-board';
+    const cellEls=[];
+    for(let i=0;i<3;i++){
+      cellEls.push([]);
+      for(let j=0;j<3;j++){
+        const t = cfg.bg[i][j];
+        const c=document.createElement('div');
+        c.className='demo-cell t-'+t;
+        c.textContent = SYMBOLS[t];
+        board.appendChild(c);
+        cellEls[i].push(c);
+      }
+    }
+    stage.appendChild(board);
+
+    const sheep=document.createElement('div');
+    sheep.className='move-sheep';
+    sheep.textContent='🐑';
+    const sp = pos(START[0],START[1]);
+    sheep.style.transform = `translate(${sp.x}px, ${sp.y}px)`;
+    board.appendChild(sheep);
+
+    let staticSheep=null;
+    if(cfg.staticAnimal){
+      staticSheep=document.createElement('div');
+      staticSheep.className='move-sheep is-static';
+      staticSheep.textContent='🐑';
+      const tp = pos(TARGET[0],TARGET[1]);
+      staticSheep.style.transform = `translate(${tp.x}px, ${tp.y}px)`;
+      board.appendChild(staticSheep);
+    }
+
+    return { board, cellEls, sheep, staticSheep };
+  }
+
+  function runMoveDemo(stage, cfg){
+    let cancelled=false;
+    stage._cancel = ()=>{ cancelled=true; };
+
+    function cycle(){
+      if(cancelled) return;
+      const refs = buildBoard(stage, cfg);
+      const startP = pos(START[0],START[1]);
+      const targetP = pos(TARGET[0],TARGET[1]);
+      const midP = { x: startP.x + (targetP.x-startP.x)*0.32, y: startP.y + (targetP.y-startP.y)*0.32 };
+
+      setTimeout(()=>{
+        if(cancelled) return;
+        if(cfg.outcome==='move'){
+          refs.sheep.style.transform = `translate(${targetP.x}px, ${targetP.y}px)`;
+        } else if(cfg.outcome==='consume'){
+          const targetCell = refs.cellEls[TARGET[0]][TARGET[1]];
+          targetCell.style.transition='opacity 0.3s ease';
+          targetCell.style.opacity='0';
+          refs.sheep.style.transform = `translate(${targetP.x}px, ${targetP.y}px)`;
+        } else {
+          // blocked: avanza parcialmente hacia el obstáculo y retrocede (rebote)
+          refs.sheep.classList.add('is-bouncing');
+          refs.sheep.style.transform = `translate(${midP.x}px, ${midP.y}px)`;
+          setTimeout(()=>{
+            if(cancelled) return;
+            refs.sheep.style.transform = `translate(${startP.x}px, ${startP.y}px)`;
+          }, 230);
+        }
+      }, 750);
+
+      setTimeout(()=>{ if(!cancelled) cycle(); }, 3200);
+    }
+    cycle();
+  }
+
+  document.querySelectorAll('.move-demo').forEach(el=>{
+    const key = el.getAttribute('data-move');
+    const cfg = MOVE_DEMOS[key];
+    if(!cfg) return;
+    const stage = el.querySelector('.rule-demo-stage');
+    stage.classList.add('move-stage');
+    runMoveDemo(stage, cfg);
+  });
+})();
+
+
+(function(){
+  const links = Array.from(document.querySelectorAll('nav.toc a'));
+  const sections = links.map(a=>document.querySelector(a.getAttribute('href')));
+  function onScroll(){
+    let activeIdx = 0;
+    sections.forEach((s,idx)=>{
+      if(s && s.getBoundingClientRect().top < 140) activeIdx = idx;
+    });
+    links.forEach(l=>l.classList.remove('active'));
+    if(links[activeIdx]) links[activeIdx].classList.add('active');
+  }
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+
+</body>
+</html>
