@@ -528,6 +528,130 @@
   @media (max-width:820px){ .sim-body{ grid-template-columns:1fr; } }
   .sim-output pre.console{ max-height:300px; overflow-y:auto; margin:0; }
 
+  /* ---------- view tabs ---------- */
+  .view-tabs{
+    display:flex;
+    gap:0;
+    margin-bottom:16px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    overflow:hidden;
+    width:fit-content;
+  }
+  .view-tab{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.74rem;
+    font-weight:700;
+    letter-spacing:0.04em;
+    padding:7px 14px;
+    border:none;
+    background:transparent;
+    color:var(--ink-soft);
+    cursor:pointer;
+    border-right:1px solid var(--line);
+  }
+  .view-tab:last-child{ border-right:none; }
+  .view-tab:hover{ background:var(--bg-panel-dim); color:var(--ink); }
+  .view-tab.is-active{
+    background:var(--ink);
+    color:var(--bg-panel);
+  }
+
+  /* ---------- console view ---------- */
+  .sim-console-wrap{
+    background:#1B2018;
+    border-radius:12px;
+    overflow:hidden;
+    display:none;
+    min-width:260px;
+  }
+  .sim-console-wrap.is-visible{ display:block; }
+  .sim-console-header{
+    background:#131610;
+    padding:8px 14px;
+    display:flex;
+    align-items:center;
+    gap:7px;
+  }
+  .sim-console-header .dot{
+    width:10px; height:10px; border-radius:50%;
+  }
+  .sim-console-header .dot:nth-child(1){ background:#E05252; }
+  .sim-console-header .dot:nth-child(2){ background:#E0B252; }
+  .sim-console-header .dot:nth-child(3){ background:#52A752; }
+  .sim-console-header .title{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;
+    color:#6B7265;
+    margin-left:4px;
+    flex:1;
+  }
+  .console-mode-toggle{
+    display:flex;
+    gap:0;
+    border:1px solid #2E3329;
+    border-radius:5px;
+    overflow:hidden;
+    margin-left:auto;
+  }
+  .console-mode-btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.67rem;
+    font-weight:700;
+    padding:3px 8px;
+    border:none;
+    background:transparent;
+    color:#6B7265;
+    cursor:pointer;
+    border-right:1px solid #2E3329;
+  }
+  .console-mode-btn:last-child{ border-right:none; }
+  .console-mode-btn:hover{ color:#C8BFA6; }
+  .console-mode-btn.is-active{ background:#2E3329; color:#E7E2D3; }
+  #simConsoleOutput{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.82rem;
+    line-height:1.7;
+    color:#E7E2D3;
+    padding:14px 18px;
+    white-space:pre;
+    max-height:460px;
+    overflow-y:auto;
+    overflow-x:auto;
+  }
+  #simConsoleOutput .console-gen-header{
+    color:#9BC4D6;
+    margin-bottom:2px;
+    display:block;
+  }
+  #simConsoleOutput .console-map-line{ display:block; }
+  #simConsoleOutput .console-sym-row{ display:block; line-height:1.8; }
+  #simConsoleOutput .console-sym-cell{
+    display:inline-block;
+    width:1.9em;
+    text-align:center;
+    font-size:0.9em;
+  }
+  #simConsoleOutput .console-sep{
+    color:#3A3E37;
+    display:block;
+    margin-bottom:6px;
+  }
+  #simConsoleOutput .console-sym-sep::before{
+    content:'';
+    display:block;
+    height:1px;
+    background:#3A3E37;
+    margin:4px 0 10px;
+    width:100%;
+  }
+  .grid-wrap{ display:inline-block; }
+  /* hide visual grid when console active */
+  .sim-body.view-console .grid-wrap{ display:none; }
+  .sim-body.view-console .sim-console-wrap{ display:block; }
+  .sim-body.view-visual .grid-wrap{ display:inline-block; }
+  .sim-body.view-visual .sim-console-wrap{ display:none; }
+
   .validation-box{
     font-family:'JetBrains Mono',monospace;
     font-size:0.82rem;
@@ -955,7 +1079,25 @@ n=1</pre>
           <span class="gen-badge" id="simGenBadge">Gen: —</span>
         </div>
 
-        <div class="sim-body">
+        <div class="view-tabs">
+          <button class="view-tab is-active" id="tabConsole" data-i18n="s10.tabConsole">⬛ Consola</button>
+          <button class="view-tab" id="tabVisual" data-i18n="s10.tabVisual">🌿 Visual</button>
+        </div>
+
+        <div class="sim-body view-console" id="simBody">
+          <!-- Vista consola -->
+          <div class="sim-console-wrap" id="simConsoleWrap">
+            <div class="sim-console-header">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span class="title">java Capstone — output</span>
+              <div class="console-mode-toggle">
+                <button class="console-mode-btn is-active" id="btnModeNum" title="Números (0 1 2 3)">0–3</button>
+                <button class="console-mode-btn" id="btnModeSym" title="Símbolos (. 🌲 🐑 💧)">🌿</button>
+              </div>
+            </div>
+            <div id="simConsoleOutput"></div>
+          </div>
+          <!-- Vista visual -->
           <div class="grid-wrap"><div id="simGrid" class="eco-grid"></div></div>
           <div class="sim-output">
             <div class="legend">
@@ -1230,6 +1372,8 @@ const I18N = {
     's10.btnReset': `⟲ Reset`,
     's10.legendEmpty': `Empty`, 's10.legendTree': `Tree`, 's10.legendAnimal': `Animal`, 's10.legendWater': `Water`,
     's10.simLogPlaceholder': `Set the parameters and press Start.`,
+    's10.tabConsole': `⬛ Console`,
+    's10.tabVisual': `🌿 Visual`,
     's11.eyebrow': `11 · FAQ`,
     's11.h2': `Common implementation questions`,
     'faq1.q': `In what order should I evaluate the rules within a generation?`,
@@ -1371,6 +1515,8 @@ const I18N = {
     's10.btnReset': `⟲ Reiniciar`,
     's10.legendEmpty': `Vazio`, 's10.legendTree': `Árvore`, 's10.legendAnimal': `Animal`, 's10.legendWater': `Água`,
     's10.simLogPlaceholder': `Configure os parâmetros e clique em Iniciar.`,
+    's10.tabConsole': `⬛ Console`,
+    's10.tabVisual': `🌿 Visual`,
     's11.eyebrow': `11 · Perguntas frequentes`,
     's11.h2': `Dúvidas comuns na implementação`,
     'faq1.q': `Em que ordem devo avaliar as regras dentro de uma geração?`,
@@ -1680,6 +1826,94 @@ function renderGrid(container, map, cellSize=26){
   const simGrid = $('simGrid');
   const simLog = $('simLog');
   const simGenBadge = $('simGenBadge');
+  const simBody = $('simBody');
+  const simConsoleOutput = $('simConsoleOutput');
+
+  /* ---- console display mode (numbers = default, symbols = optional) ---- */
+  const CON_NUM  = { 0:'0', 1:'1', 2:'2', 3:'3' };
+  const CON_SYM  = { 0:'.', 1:'🌲', 2:'🐑', 3:'💧' };
+  let consoleMode = 'num'; // 'num' | 'sym'
+
+  $('btnModeNum').addEventListener('click', ()=>{ setConsoleMode('num'); });
+  $('btnModeSym').addEventListener('click', ()=>{ setConsoleMode('sym'); });
+
+  function setConsoleMode(mode){
+    consoleMode = mode;
+    $('btnModeNum').classList.toggle('is-active', mode==='num');
+    $('btnModeSym').classList.toggle('is-active', mode==='sym');
+    // re-render current map if simulation exists
+    if(state){
+      clearConsole();
+      const label = state.gen===0 ? t('genInicial') : t('genPrefix')+state.gen;
+      renderConsole(state.map, label);
+    }
+  }
+
+  /* ---- view tab logic ---- */
+  let currentView = 'console'; // default: console view
+
+  function setView(v){
+    currentView = v;
+    simBody.className = 'sim-body view-' + v;
+    $('tabConsole').classList.toggle('is-active', v==='console');
+    $('tabVisual').classList.toggle('is-active', v==='visual');
+  }
+
+  $('tabConsole').addEventListener('click', ()=> setView('console'));
+  $('tabVisual').addEventListener('click', ()=> setView('visual'));
+
+  /* ---- console output renderer ---- */
+  function renderConsole(map, genLabel){
+    const cols = map[0].length;
+    const wasAtBottom = simConsoleOutput.scrollHeight - simConsoleOutput.scrollTop
+      <= simConsoleOutput.clientHeight + 20;
+
+    const frag = document.createDocumentFragment();
+
+    // generation header
+    const hdr = document.createElement('span');
+    hdr.className = 'console-gen-header';
+    hdr.textContent = genLabel;
+    frag.appendChild(hdr);
+
+    if(consoleMode === 'num'){
+      // plain text — perfect alignment guaranteed
+      const sepLen = cols * 2 - 1;
+      for(let i=0; i<map.length; i++){
+        const row = document.createElement('span');
+        row.className = 'console-map-line';
+        row.textContent = map[i].map(v=> CON_NUM[v]).join(' ');
+        frag.appendChild(row);
+      }
+      const sep = document.createElement('span');
+      sep.className = 'console-sep';
+      sep.textContent = '─'.repeat(sepLen);
+      frag.appendChild(sep);
+
+    } else {
+      // emoji mode — each cell in a fixed-width inline-block span
+      // so double-width emojis and single-width dots all occupy the same space
+      for(let i=0; i<map.length; i++){
+        const row = document.createElement('span');
+        row.className = 'console-map-line console-sym-row';
+        for(let j=0; j<cols; j++){
+          const cell = document.createElement('span');
+          cell.className = 'console-sym-cell';
+          cell.textContent = CON_SYM[map[i][j]];
+          row.appendChild(cell);
+        }
+        frag.appendChild(row);
+      }
+      const sep = document.createElement('span');
+      sep.className = 'console-sep console-sym-sep';
+      frag.appendChild(sep);
+    }
+
+    simConsoleOutput.appendChild(frag);
+    if(wasAtBottom) simConsoleOutput.scrollTop = simConsoleOutput.scrollHeight;
+  }
+
+  function clearConsole(){ simConsoleOutput.innerHTML = ''; }
 
   const ALLOWED_W=[5,10,15,20,40,80];
   const ALLOWED_H=[5,10,15,20,40];
@@ -1744,7 +1978,9 @@ function renderGrid(container, map, cellSize=26){
     simLog.textContent = '';
     simLog.removeAttribute('data-i18n');
     simGenBadge.textContent = t('genInicial');
+    clearConsole();
     renderGrid(simGrid, state.map, Math.max(12, Math.min(26, Math.floor(560/state.cols))));
+    renderConsole(state.map, t('genInicial'));
     log(t('genInicial'));
     return true;
   }
@@ -1753,9 +1989,11 @@ function renderGrid(container, map, cellSize=26){
     if(!state) return;
     state.gen++;
     state.map = nextMap(state.map, state.rows, state.cols, state.gen, state.n);
-    simGenBadge.textContent = t('genPrefix')+state.gen;
+    const genLabel = t('genPrefix')+state.gen;
+    simGenBadge.textContent = genLabel;
     renderGrid(simGrid, state.map, Math.max(12, Math.min(26, Math.floor(560/state.cols))));
-    log(t('genPrefix')+state.gen);
+    renderConsole(state.map, genLabel);
+    log(genLabel);
     if(state.g!==0 && state.gen>=state.g) stopTimer();
   }
 
